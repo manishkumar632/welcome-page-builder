@@ -6,6 +6,7 @@ import {
   Environment,
   Float,
   useGLTF,
+  useAnimations,
   ContactShadows,
   Html,
   MeshDistortMaterial,
@@ -17,14 +18,18 @@ import { useScroll, useTransform, useSpring, type MotionValue } from "framer-mot
 // Free public glTF samples from KhronosGroup (CC-BY / public domain).
 const HELMET_URL =
   "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/DamagedHelmet/glTF-Binary/DamagedHelmet.glb";
-const DUCK_URL =
-  "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Duck/glTF-Binary/Duck.glb";
-const AVOCADO_URL =
-  "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Avocado/glTF-Binary/Avocado.glb";
+// Animated character GLBs (rigged + baked animations, Khronos sample assets).
+const FOX_URL =
+  "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Fox/glTF-Binary/Fox.glb";
+const BRAINSTEM_URL =
+  "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/BrainStem/glTF-Binary/BrainStem.glb";
+const CESIUM_MAN_URL =
+  "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/CesiumMan/glTF-Binary/CesiumMan.glb";
 
 useGLTF.preload(HELMET_URL);
-useGLTF.preload(DUCK_URL);
-useGLTF.preload(AVOCADO_URL);
+useGLTF.preload(FOX_URL);
+useGLTF.preload(BRAINSTEM_URL);
+useGLTF.preload(CESIUM_MAN_URL);
 
 function Loader() {
   return (
@@ -203,35 +208,58 @@ export function OrbScene() {
   );
 }
 
-/* ---------- Trio of GLB models orbiting (section showcase) ---------- */
+/* ---------- Animated character showcase ---------- */
 
-function OrbitingModel({
+function AnimatedCharacter({
   url,
-  radius,
-  speed,
-  yOffset = 0,
+  position,
+  rotationY = 0,
   scale = 1,
+  bob = 0.08,
+  bobSpeed = 1.4,
+  preferredClip,
 }: {
   url: string;
-  radius: number;
-  speed: number;
-  yOffset?: number;
+  position: [number, number, number];
+  rotationY?: number;
   scale?: number;
+  bob?: number;
+  bobSpeed?: number;
+  preferredClip?: string;
 }) {
-  const ref = useRef<Group>(null);
-  const { scene } = useGLTF(url);
-  // clone for safety when reused
+  const group = useRef<Group>(null);
+  const { scene, animations } = useGLTF(url);
+  // Clone scene so each instance is independent (skinned meshes need SkeletonUtils for true independence,
+  // but for a single-instance-per-URL showcase, the source scene is fine and keeps animations bound).
+  const { actions, names } = useAnimations(animations, group);
+
+  useEffect(() => {
+    if (!names.length) return;
+    const pick =
+      (preferredClip && names.find((n) => n.toLowerCase().includes(preferredClip.toLowerCase()))) ||
+      names[0];
+    const action = actions[pick];
+    action?.reset().fadeIn(0.4).play();
+    return () => {
+      action?.fadeOut(0.3);
+    };
+  }, [actions, names, preferredClip]);
+
   useFrame(({ clock }) => {
-    if (!ref.current) return;
-    const t = clock.getElapsedTime() * speed;
-    ref.current.position.x = Math.cos(t) * radius;
-    ref.current.position.z = Math.sin(t) * radius;
-    ref.current.position.y = yOffset + Math.sin(t * 1.6) * 0.15;
-    ref.current.rotation.y = t * 0.8;
+    if (!group.current) return;
+    const t = clock.getElapsedTime();
+    group.current.position.y = position[1] + Math.sin(t * bobSpeed) * bob;
+    group.current.rotation.y = rotationY + Math.sin(t * 0.4) * 0.15;
   });
+
   return (
-    <group ref={ref} scale={scale}>
-      <primitive object={scene.clone()} />
+    <group
+      ref={group}
+      position={position}
+      rotation={[0, rotationY, 0]}
+      scale={scale}
+    >
+      <primitive object={scene} />
     </group>
   );
 }
@@ -239,41 +267,51 @@ function OrbitingModel({
 export function ShowcaseScene() {
   return (
     <div className="relative h-[440px] w-full">
-      <Canvas dpr={[1, 2]} camera={{ position: [0, 1.5, 5], fov: 45 }} gl={{ alpha: true, antialias: true }}>
-        <ambientLight intensity={0.4} />
-        <directionalLight position={[5, 6, 5]} intensity={1.1} color="#ffffff" />
-        <directionalLight position={[-5, 3, -3]} intensity={0.6} color="#60a5fa" />
+      <Canvas dpr={[1, 2]} camera={{ position: [0, 1.4, 6], fov: 42 }} gl={{ alpha: true, antialias: true }}>
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[5, 6, 5]} intensity={1.2} color="#ffffff" castShadow />
+        <directionalLight position={[-5, 3, -3]} intensity={0.7} color="#a78bfa" />
+        <directionalLight position={[0, 2, -6]} intensity={0.5} color="#60a5fa" />
         <Suspense fallback={<Loader />}>
-          {/* Center helmet */}
-          <Float speed={1.5} rotationIntensity={0.4} floatIntensity={0.6}>
-            <group scale={0.9}>
-              <CenterHelmet />
-            </group>
-          </Float>
-          {/* Orbiters */}
-          <OrbitingModel url={DUCK_URL} radius={2.2} speed={0.6} yOffset={0.2} scale={0.012} />
-          <OrbitingModel url={AVOCADO_URL} radius={2.6} speed={-0.45} yOffset={-0.3} scale={28} />
-          <Sparkles count={70} scale={7} size={2} speed={0.35} color="#a78bfa" />
-          <ContactShadows position={[0, -1.4, 0]} opacity={0.4} scale={10} blur={3} far={4} />
-          <Environment preset="warehouse" />
+          {/* Center: BrainStem — idle dance loop */}
+          <AnimatedCharacter
+            url={BRAINSTEM_URL}
+            position={[0, -1.1, 0]}
+            scale={1.05}
+            bob={0.05}
+            bobSpeed={1.2}
+          />
+          {/* Left: CesiumMan — walking */}
+          <AnimatedCharacter
+            url={CESIUM_MAN_URL}
+            position={[-2.4, -1.1, 0.4]}
+            rotationY={0.5}
+            scale={1.25}
+            bob={0.04}
+            bobSpeed={1.6}
+          />
+          {/* Right: Fox — survey/run animation, scaled down (Fox model is huge) */}
+          <AnimatedCharacter
+            url={FOX_URL}
+            position={[2.4, -1.1, 0.4]}
+            rotationY={-0.5}
+            scale={0.022}
+            bob={0.02}
+            bobSpeed={1.0}
+            preferredClip="Survey"
+          />
+          <Sparkles count={80} scale={8} size={2} speed={0.35} color="#a78bfa" />
+          <ContactShadows position={[0, -1.12, 0]} opacity={0.5} scale={12} blur={3} far={4} />
+          <Environment preset="city" />
         </Suspense>
       </Canvas>
+      <div className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-black/30 px-3 py-1 text-[10px] uppercase tracking-wider text-white/60 backdrop-blur-sm">
+        live animated characters
+      </div>
     </div>
   );
 }
 
-function CenterHelmet() {
-  const ref = useRef<Group>(null);
-  const { scene } = useGLTF(HELMET_URL);
-  useFrame((_, d) => {
-    if (ref.current) ref.current.rotation.y += d * 0.4;
-  });
-  return (
-    <group ref={ref}>
-      <primitive object={scene.clone()} />
-    </group>
-  );
-}
 
 /* ---------- Sticky scroll-track section: model rotates as user scrolls past ---------- */
 
