@@ -36,9 +36,9 @@ export default function ProfilePage() {
               Add a title and bio so recruiters know who you are.
             </p>
             <div className="mt-3 flex flex-wrap gap-2 text-sm text-muted">
-              <a className="inline-flex items-center gap-1 hover:text-foreground"><Github className="h-3.5 w-3.5" /> Add GitHub</a>
+              <a className="inline-flex items-center gap-1 hover:text-foreground"><Code2 className="h-3.5 w-3.5" /> Add GitHub</a>
               <span>·</span>
-              <a className="inline-flex items-center gap-1 hover:text-foreground"><Linkedin className="h-3.5 w-3.5" /> Add LinkedIn</a>
+              <a className="inline-flex items-center gap-1 hover:text-foreground"><Briefcase className="h-3.5 w-3.5" /> Add LinkedIn</a>
               <span>·</span>
               <a className="inline-flex items-center gap-1 hover:text-foreground"><Globe className="h-3.5 w-3.5" /> Add website</a>
             </div>
