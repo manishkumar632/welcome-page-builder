@@ -70,12 +70,16 @@ export default function StarfieldBackground() {
     for (let i = 0; i < 8; i++) {
       arr.push({
         id: i,
-        top: Math.random() * 60, // upper portion
+        // Start in upper portion of the screen so they have room to fall
+        top: Math.random() * 40,
+        // Start anywhere across the width
         left: Math.random() * 100,
         delay: Math.random() * 12,
         duration: Math.random() * 2.5 + 2.2,
         length: Math.random() * 120 + 120,
-        angle: 215 + Math.random() * 25, // diagonal down-left to down-right-ish
+        // 120-150° = down-left diagonal (cos<0, sin>0). Streak points
+        // along travel direction so the bright head leads.
+        angle: 125 + Math.random() * 25,
       });
     }
     return arr;
@@ -166,7 +170,9 @@ export default function StarfieldBackground() {
               style={{
                 width: `${m.length}px`,
                 height: "2px",
-                transform: `rotate(${m.angle}deg)`,
+                // Rotate streak opposite to travel so the bright head leads
+                // and the fading tail trails behind.
+                transform: `rotate(${m.angle + 180}deg)`,
                 transformOrigin: "left center",
                 background:
                   "linear-gradient(90deg, rgba(255,255,255,0.95), rgba(167,139,250,0.6) 40%, rgba(96,165,250,0) 100%)",
