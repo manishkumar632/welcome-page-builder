@@ -312,18 +312,6 @@ export function ShowcaseScene() {
   );
 }
 
-function CenterHelmet() {
-  const ref = useRef<Group>(null);
-  const { scene } = useGLTF(HELMET_URL);
-  useFrame((_, d) => {
-    if (ref.current) ref.current.rotation.y += d * 0.4;
-  });
-  return (
-    <group ref={ref}>
-      <primitive object={scene.clone()} />
-    </group>
-  );
-}
 
 /* ---------- Sticky scroll-track section: model rotates as user scrolls past ---------- */
 
