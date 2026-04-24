@@ -32,17 +32,20 @@ html, body {
   text-rendering: optimizeLegibility;
 }
 
-/* Atmospheric blue hero gradient (like protobloc) */
+/* Atmospheric hero background image (from protobloc.com) */
 .bg-hero-sky {
-  background:
-    radial-gradient(80% 50% at 65% 10%, #ffffff 0%, rgba(255,255,255,0) 60%),
-    radial-gradient(60% 40% at 15% 5%, #b9cde8 0%, rgba(185,205,232,0) 70%),
-    linear-gradient(180deg, #93b1d8 0%, #a8c0de 30%, #c8d8ec 60%, #ffffff 100%);
+  background-color: #93b1d8;
+  background-image: url('/hero-bg.png');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
 }
 .bg-hero-cta {
-  background:
-    radial-gradient(70% 60% at 50% 0%, #ffffff 0%, rgba(255,255,255,0) 60%),
-    linear-gradient(180deg, #c8d8ec 0%, #93b1d8 50%, #c8d8ec 100%);
+  background-color: #93b1d8;
+  background-image: url('/hero-bg.png');
+  background-size: cover;
+  background-position: center bottom;
+  background-repeat: no-repeat;
 }
 
 /* Subtle grid overlay */
