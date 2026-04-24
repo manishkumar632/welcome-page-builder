@@ -1,7 +1,32 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { motion, useScroll, useSpring, useTransform, type MotionValue } from "framer-motion";
+
+function Milestone({
+  physics,
+  cx,
+  cy,
+  threshold,
+}: {
+  physics: MotionValue<number>;
+  cx: number;
+  cy: number;
+  threshold: number;
+}) {
+  const reach = useTransform(physics, [threshold, threshold + 0.05], [0, 1]);
+  return (
+    <motion.circle
+      cx={cx}
+      cy={cy}
+      r={6}
+      fill="#0f0f14"
+      stroke="url(#pathGrad)"
+      strokeWidth={2}
+      style={{ scale: reach, opacity: reach, transformOrigin: `${cx}px ${cy}px` }}
+    />
+  );
+}
 
 /**
  * A long, decorative SVG path that draws itself as the user scrolls
@@ -73,21 +98,10 @@ export default function ScrollPath() {
         />
 
         {/* milestone nodes */}
-        {[200, 600, 1000, 1400].map((y, i) => {
-          const reach = useTransform(physics, [i * 0.22, i * 0.22 + 0.05], [0, 1]);
-          return (
-            <motion.circle
-              key={y}
-              cx={y === 200 || y === 1000 ? 95 : 45}
-              cy={y}
-              r={6}
-              fill="#0f0f14"
-              stroke="url(#pathGrad)"
-              strokeWidth={2}
-              style={{ scale: reach, opacity: reach, transformOrigin: "center" }}
-            />
-          );
-        })}
+        <Milestone physics={physics} cx={95} cy={200} threshold={0.1} />
+        <Milestone physics={physics} cx={45} cy={600} threshold={0.35} />
+        <Milestone physics={physics} cx={95} cy={1000} threshold={0.6} />
+        <Milestone physics={physics} cx={45} cy={1400} threshold={0.85} />
 
         {/* travelling dot */}
         <motion.circle
