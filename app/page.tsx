@@ -64,28 +64,26 @@ export default function Home() {
   return (
     <div className="min-h-screen w-full overflow-x-hidden">
       {/* ===== Hero ===== */}
-      <section className="relative isolate min-h-[100svh] w-full bg-hero-sky">
-        <div className="absolute inset-0 bg-grid-overlay opacity-60" />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-white" />
+      <section className="relative isolate w-full bg-hero-sky">
         <SiteHeader variant="hero" />
 
-        <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-end px-6 pb-24 pt-40 text-white">
+        <div className="relative z-10 mx-auto max-w-7xl px-6 pb-48 pt-36 sm:pb-56 sm:pt-40">
           <a
             href="#"
-            className="mb-10 inline-flex w-fit items-center gap-3 rounded-full bg-white/15 px-4 py-2 text-sm backdrop-blur ring-1 ring-white/20 hover:bg-white/25 animate-fade-up"
+            className="mb-10 inline-flex w-fit items-center gap-3 rounded-full bg-white/40 px-4 py-2 text-sm backdrop-blur ring-1 ring-white/60 hover:bg-white/60 animate-fade-up"
           >
-            <span className="text-white/80">Read our whitepaper</span>
-            <span className="font-medium">The Protobloc Protocol</span>
+            <span className="text-ink/60">Read our whitepaper</span>
+            <span className="font-medium text-ink">The Protobloc Protocol</span>
             <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden>
               <path d="M5 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </a>
 
-          <h1 className="max-w-5xl text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl lg:text-[88px] animate-fade-up">
+          <h1 className="max-w-5xl text-5xl font-semibold leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl lg:text-[88px] animate-fade-up [text-shadow:0_2px_24px_rgba(31,32,35,0.15)]">
             Your career isn&apos;t<br />owned by a platform
           </h1>
 
-          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-white/85 sm:text-xl animate-fade-up">
+          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-white sm:text-xl animate-fade-up [text-shadow:0_1px_12px_rgba(31,32,35,0.18)]">
             Professional identity should be cultivated, provable at the root, and
             carried forward by the people who earn it.
           </p>
