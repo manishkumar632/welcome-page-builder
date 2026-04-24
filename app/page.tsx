@@ -64,10 +64,21 @@ export default function Home() {
   return (
     <div className="min-h-screen w-full overflow-x-hidden">
       {/* ===== Hero ===== */}
-      <section className="relative isolate w-full bg-hero-sky">
+      <section className="relative isolate w-full overflow-hidden bg-hero-sky">
+        {/* Farm/city scene at the bottom, blurred */}
+        <div
+          aria-hidden
+          className="absolute inset-x-0 bottom-0 h-[75%] bg-cover bg-center bg-no-repeat blur-[2px]"
+          style={{ backgroundImage: "url('/hero-farm.png')" }}
+        />
+        {/* Soft sky-to-scene fade so the farm blends into the sky */}
+        <div aria-hidden className="absolute inset-x-0 top-1/4 h-1/3 bg-gradient-to-b from-[#93b1d8] to-transparent" />
+        {/* Subtle grid overlay across the whole hero */}
+        <div aria-hidden className="absolute inset-0 bg-grid-overlay opacity-50" />
+
         <SiteHeader variant="hero" />
 
-        <div className="relative z-10 mx-auto max-w-7xl px-6 pb-48 pt-36 sm:pb-56 sm:pt-40">
+        <div className="relative z-10 mx-auto max-w-7xl px-6 pb-56 pt-36 sm:pb-72 sm:pt-40">
           <a
             href="#"
             className="mb-10 inline-flex w-fit items-center gap-3 rounded-full bg-white/40 px-4 py-2 text-sm backdrop-blur ring-1 ring-white/60 hover:bg-white/60 animate-fade-up"
@@ -79,11 +90,11 @@ export default function Home() {
             </svg>
           </a>
 
-          <h1 className="max-w-5xl text-5xl font-semibold leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl lg:text-[88px] animate-fade-up [text-shadow:0_2px_24px_rgba(31,32,35,0.15)]">
+          <h1 className="max-w-5xl text-5xl font-semibold leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl lg:text-[88px] animate-fade-up [text-shadow:0_2px_24px_rgba(31,32,35,0.2)]">
             Your career isn&apos;t<br />owned by a platform
           </h1>
 
-          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-white sm:text-xl animate-fade-up [text-shadow:0_1px_12px_rgba(31,32,35,0.18)]">
+          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-white sm:text-xl animate-fade-up [text-shadow:0_1px_12px_rgba(31,32,35,0.25)]">
             Professional identity should be cultivated, provable at the root, and
             carried forward by the people who earn it.
           </p>
