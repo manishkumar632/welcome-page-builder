@@ -46,9 +46,9 @@ function HelmetModel({ progress }: { progress: MotionValue<number> }) {
     if (!ref.current) return;
     const p = progress.get();
     ref.current.rotation.y += delta * 0.25;
-    ref.current.rotation.x = -0.25 + p * 1.4;
-    ref.current.position.y = -p * 0.8;
-    const s = 1.6 + p * 0.4;
+    ref.current.rotation.x = -0.15 + p * 1.4;
+    ref.current.position.y = -p * 0.6;
+    const s = 1.0 + p * 0.25;
     ref.current.scale.set(s, s, s);
   });
 
