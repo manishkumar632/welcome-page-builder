@@ -18,14 +18,18 @@ import { useScroll, useTransform, useSpring, type MotionValue } from "framer-mot
 // Free public glTF samples from KhronosGroup (CC-BY / public domain).
 const HELMET_URL =
   "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/DamagedHelmet/glTF-Binary/DamagedHelmet.glb";
-const DUCK_URL =
-  "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Duck/glTF-Binary/Duck.glb";
-const AVOCADO_URL =
-  "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Avocado/glTF-Binary/Avocado.glb";
+// Animated character GLBs (rigged + baked animations, Khronos sample assets).
+const FOX_URL =
+  "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Fox/glTF-Binary/Fox.glb";
+const BRAINSTEM_URL =
+  "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/BrainStem/glTF-Binary/BrainStem.glb";
+const CESIUM_MAN_URL =
+  "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/CesiumMan/glTF-Binary/CesiumMan.glb";
 
 useGLTF.preload(HELMET_URL);
-useGLTF.preload(DUCK_URL);
-useGLTF.preload(AVOCADO_URL);
+useGLTF.preload(FOX_URL);
+useGLTF.preload(BRAINSTEM_URL);
+useGLTF.preload(CESIUM_MAN_URL);
 
 function Loader() {
   return (
