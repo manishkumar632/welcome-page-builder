@@ -65,16 +65,17 @@ export default function Home() {
     <div className="min-h-screen w-full overflow-x-hidden">
       {/* ===== Hero ===== */}
       <section className="relative isolate w-full overflow-hidden bg-hero-sky">
-        {/* Farm/city scene at the bottom, blurred */}
+        {/* Blurry overlay covering bottom 75% of hero */}
         <div
           aria-hidden
-          className="absolute inset-x-0 bottom-0 h-[75%] bg-cover bg-center bg-no-repeat blur-[2px]"
-          style={{ backgroundImage: "url('/hero-farm.png')" }}
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[75%] backdrop-blur-[2px]"
+          style={{
+            WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 15%, black 100%)",
+            maskImage: "linear-gradient(to bottom, transparent 0%, black 15%, black 100%)",
+          }}
         />
-        {/* Soft sky-to-scene fade so the farm blends into the sky */}
-        <div aria-hidden className="absolute inset-x-0 top-1/4 h-1/3 bg-gradient-to-b from-[#93b1d8] to-transparent" />
         {/* Subtle grid overlay across the whole hero */}
-        <div aria-hidden className="absolute inset-0 bg-grid-overlay opacity-50" />
+        <div aria-hidden className="pointer-events-none absolute inset-0 bg-grid-overlay opacity-60" />
 
         <SiteHeader variant="hero" />
 
