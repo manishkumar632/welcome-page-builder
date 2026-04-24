@@ -493,13 +493,13 @@ function ParallaxCard({
     offset: ["start end", "end start"],
   });
   const y = useTransform(scrollYProgress, [0, 1], [40, -40]);
-  const ySpring = useSpring(y, { stiffness: 60, damping: 18 });
-  const offset = index % 2 === 0 ? ySpring : useTransform(ySpring, (v) => -v);
+  const yInverse = useTransform(scrollYProgress, [0, 1], [-40, 40]);
+  const ySpring = useSpring(index % 2 === 0 ? y : yInverse, { stiffness: 60, damping: 18 });
 
   return (
     <motion.div
       ref={ref}
-      style={{ y: offset }}
+      style={{ y: ySpring }}
       className="rounded-2xl glass p-6 md:p-8"
     >
       {children}
