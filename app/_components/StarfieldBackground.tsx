@@ -142,42 +142,54 @@ export default function StarfieldBackground() {
       })}
 
       {/* Shooting meteors */}
-      {meteors.map((m) => (
-        <span
-          key={`m-${m.id}`}
-          className="absolute"
-          style={{
-            top: `${m.top}%`,
-            left: `${m.left}%`,
-            width: `${m.length}px`,
-            height: "2px",
-            transform: `rotate(${m.angle}deg)`,
-            transformOrigin: "left center",
-            background:
-              "linear-gradient(90deg, rgba(255,255,255,0.95), rgba(167,139,250,0.6) 40%, rgba(96,165,250,0) 100%)",
-            borderRadius: "9999px",
-            opacity: 0,
-            filter: "drop-shadow(0 0 6px rgba(167,139,250,0.7))",
-            animation: `meteor-fall ${m.duration}s linear ${m.delay}s infinite`,
-          }}
-        />
-      ))}
+      {meteors.map((m) => {
+        // Convert angle to dx/dy travel
+        const rad = (m.angle * Math.PI) / 180;
+        const distance = 1400;
+        const dx = Math.cos(rad) * distance;
+        const dy = Math.sin(rad) * distance;
+        return (
+          <span
+            key={`m-${m.id}`}
+            className="absolute block"
+            style={{
+              top: `${m.top}%`,
+              left: `${m.left}%`,
+              opacity: 0,
+              ["--mx" as string]: `${dx}px`,
+              ["--my" as string]: `${dy}px`,
+              animation: `meteor-travel ${m.duration}s linear ${m.delay}s infinite`,
+            }}
+          >
+            <span
+              className="block"
+              style={{
+                width: `${m.length}px`,
+                height: "2px",
+                transform: `rotate(${m.angle}deg)`,
+                transformOrigin: "left center",
+                background:
+                  "linear-gradient(90deg, rgba(255,255,255,0.95), rgba(167,139,250,0.6) 40%, rgba(96,165,250,0) 100%)",
+                borderRadius: "9999px",
+                filter: "drop-shadow(0 0 6px rgba(167,139,250,0.7))",
+              }}
+            />
+          </span>
+        );
+      })}
 
       <style jsx>{`
         @keyframes star-twinkle {
           0%, 100% { opacity: 0.2; transform: scale(0.85); }
           50% { opacity: 1; transform: scale(1.1); }
         }
-        @keyframes meteor-fall {
-          0% {
-            opacity: 0;
-            transform: translate3d(0, 0, 0) rotate(var(--meteor-angle, 220deg));
-          }
-          8% { opacity: 1; }
-          60% { opacity: 1; }
+        @keyframes meteor-travel {
+          0% { opacity: 0; transform: translate3d(0, 0, 0); }
+          6% { opacity: 1; }
+          70% { opacity: 1; }
           100% {
             opacity: 0;
-            transform: translate3d(700px, 700px, 0) rotate(var(--meteor-angle, 220deg));
+            transform: translate3d(var(--mx), var(--my), 0);
           }
         }
       `}</style>
