@@ -1,225 +1,480 @@
+"use client";
+
 import Link from "next/link";
-import Image from "next/image";
-import SiteHeader from "./_components/SiteHeader";
-import SiteFooter from "./_components/SiteFooter";
+import { motion } from "framer-motion";
+import {
+  ShieldCheck,
+  Sparkles,
+  CircleCheck,
+  Users,
+  Briefcase,
+  ArrowRight,
+  Activity,
+  Zap,
+  Lock,
+  Star,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-const principles = [
-  {
-    title: "Data is harvested, not grown",
-    eyebrow: "What's broken today",
-    body:
-      "Your professional data is harvested by platforms that did not create it. Reputation is inferred by opaque systems, not proven at the root. In an age where credentials can be generated endlessly, there is no reliable way to tell what has grown from real experience and what has been fabricated overnight.",
-    icon: (
-      <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
-        <path opacity="0.2" d="M33 15V33H15V15H33Z" fill="currentColor" />
-        <path d="M42 7.5V15a1.5 1.5 0 1 1-3 0V9h-6a1.5 1.5 0 1 1 0-3h7.5A1.5 1.5 0 0 1 42 7.5ZM15 39H9v-6a1.5 1.5 0 1 0-3 0v7.5A1.5 1.5 0 0 0 7.5 42H15a1.5 1.5 0 1 0 0-3Zm25.5-7.5a1.5 1.5 0 0 0-1.5 1.5v6h-6a1.5 1.5 0 1 0 0 3h7.5a1.5 1.5 0 0 0 1.5-1.5V33a1.5 1.5 0 0 0-1.5-1.5ZM7.5 16.5A1.5 1.5 0 0 0 9 15V9h6a1.5 1.5 0 1 0 0-3H7.5A1.5 1.5 0 0 0 6 7.5V15a1.5 1.5 0 0 0 1.5 1.5ZM15 13.5h18a1.5 1.5 0 0 1 1.5 1.5v18a1.5 1.5 0 0 1-1.5 1.5H15a1.5 1.5 0 0 1-1.5-1.5V15a1.5 1.5 0 0 1 1.5-1.5Zm1.5 18h15v-15h-15v15Z" fill="currentColor" />
-      </svg>
-    ),
-  },
-  {
-    title: "From harvested data to owned data",
-    eyebrow: "How it's changing",
-    body:
-      "AI has made it trivial to manufacture credentials at scale. Trust can no longer live inside closed platforms. It must come back to individuals who can build their claims over time, prove their origin, and reuse them wherever opportunity grows.",
-    icon: (
-      <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
-        <path d="M43.3 13.8c-.6-.3-1.2-.4-1.9-.2-.6.1-1.2.5-1.6 1l-6.3 6.8L26.7 6.3a3.5 3.5 0 0 0-5.4 0L14.6 21.3l-6.3-6.8a3 3 0 0 0-5.2 2.5L7.3 36.6a3 3 0 0 0 3 2.4h27.4a3 3 0 0 0 3-2.4l4.3-19.5c.1-.6 0-1.3-.3-1.9-.2-.6-.7-1.1-1.4-1.4Z" fill="currentColor" />
-      </svg>
-    ),
-  },
-  {
-    title: "Human-grown, machine-verified",
-    eyebrow: "Protobloc: A new foundation",
-    body:
-      "Protobloc provides a cryptographic trust layer where individuals grow their professional identity over time, while peers attest to what is real. Systems can assess truth without extracting ownership, verifying claims while leaving the data rooted with its source.",
-    icon: (
-      <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
-        <path d="M34.5 28.5 31.8 40.8a1.5 1.5 0 0 1-1.5 1.2H17.7a1.5 1.5 0 0 1-1.5-1.2L13.5 28.5h21Z" fill="currentColor" opacity=".25" />
-        <path d="M37.5 27H23.1l4.2-4.2a8.7 8.7 0 0 0 9.8-.2c4.4-2.7 6.8-9 6.4-16.7a1.5 1.5 0 0 0-1.4-1.4c-7.7-.5-14 1.9-16.7 6.3-1.7 2.9-1.8 6.4-.1 9.8L22.5 23.4l-2.3-2.3a8.7 8.7 0 0 0-.3-7.2c-2-3.4-6.7-5.2-12.5-4.9a1.5 1.5 0 0 0-1.4 1.4c-.3 5.8 1.5 10.5 4.9 12.5a8.7 8.7 0 0 0 7.2.3L20.4 25l-1.5 1.5h-8.4a1.5 1.5 0 1 0 0 3h1.8L14.8 41a3 3 0 0 0 2.9 2.5h12.6a3 3 0 0 0 2.9-2.5L35.7 30h1.8a1.5 1.5 0 1 0 0-3Z" fill="currentColor" />
-      </svg>
-    ),
-  },
-];
+import type { Variants } from "framer-motion";
 
-const steps = [
-  {
-    title: "Submit a claim",
-    body: "Claim your professional history and supporting data you want to make trustworthy. Claims are the raw inputs into a shared trust layer.",
-  },
-  {
-    title: "Peers review and attest",
-    body: "Trusted peers attest to claims based on real working relationships. Attestations replace self-reported profiles with human-verified signals.",
-  },
-  {
-    title: "Strengthen trust",
-    body: "As attestations accumulate, a trust score strengthens over time. Confidence increases through independent agreement, not a single verification event.",
-  },
-  {
-    title: "Reuse and earn",
-    body: "Trustworthy data can be reused across applications and AI systems. When it creates value, that value flows back to the people who contributed to the trust.",
-  },
-];
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 16 },
+  show: (i: number = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut", delay: i * 0.06 },
+  }),
+};
 
-export default function Home() {
+export default function LandingPage() {
   return (
-    <div className="min-h-screen w-full overflow-x-hidden">
-      {/* ===== Hero ===== */}
-      <section className="relative isolate w-full overflow-hidden bg-hero-sky">
-        {/* Blurry overlay covering bottom 75% of hero */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[75%] backdrop-blur-[2px]"
-          style={{
-            WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 15%, black 100%)",
-            maskImage: "linear-gradient(to bottom, transparent 0%, black 15%, black 100%)",
-          }}
-        />
-        {/* Subtle grid overlay across the whole hero */}
-        <div aria-hidden className="pointer-events-none absolute inset-0 bg-grid-overlay opacity-60" />
-
-        <SiteHeader variant="hero" />
-
-        <div className="relative z-10 mx-auto max-w-7xl px-6 pb-56 pt-36 sm:pb-72 sm:pt-40">
-          <a
-            href="#"
-            className="mb-10 inline-flex w-fit items-center gap-3 rounded-full bg-white/40 px-4 py-2 text-sm backdrop-blur ring-1 ring-white/60 hover:bg-white/60 animate-fade-up"
-          >
-            <span className="text-ink/60">Read our whitepaper</span>
-            <span className="font-medium text-ink">The Protobloc Protocol</span>
-            <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden>
-              <path d="M5 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </a>
-
-          <h1 className="max-w-5xl text-5xl font-semibold leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl lg:text-[88px] animate-fade-up [text-shadow:0_2px_24px_rgba(31,32,35,0.2)]">
-            Your career isn&apos;t<br />owned by a platform
-          </h1>
-
-          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-white sm:text-xl animate-fade-up [text-shadow:0_1px_12px_rgba(31,32,35,0.25)]">
-            Professional identity should be cultivated, provable at the root, and
-            carried forward by the people who earn it.
-          </p>
-
-          <div className="mt-10 animate-fade-up">
-            <a
-              href="#waitlist"
-              className="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-sm font-semibold text-ink shadow-lg shadow-black/10 transition hover:bg-white/90"
-            >
-              Join waitlist
-              <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden>
-                <path d="M5 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </a>
+    <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
+      {/* ===== Nav ===== */}
+      <header className="absolute inset-x-0 top-0 z-50">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
+          <Link href="/" className="flex items-center gap-2">
+            <LogoMark />
+            <span className="text-[15px] font-semibold tracking-tight">Protobloc</span>
+          </Link>
+          <nav className="hidden items-center gap-8 text-sm text-foreground/70 md:flex">
+            <a href="#problem" className="hover:text-foreground transition">Problem</a>
+            <a href="#solution" className="hover:text-foreground transition">Solution</a>
+            <a href="#candidates" className="hover:text-foreground transition">Candidates</a>
+            <a href="#recruiters" className="hover:text-foreground transition">Recruiters</a>
+          </nav>
+          <div className="flex items-center gap-2">
+            <Button asChild variant="ghost" size="sm">
+              <Link href="/login">Sign in</Link>
+            </Button>
+            <Button asChild size="sm">
+              <Link href="/signup">Get started</Link>
+            </Button>
           </div>
+        </div>
+      </header>
+
+      {/* ===== Hero ===== */}
+      <section className="relative isolate overflow-hidden pb-32 pt-40 sm:pt-48">
+        {/* Glow blobs */}
+        <div aria-hidden className="absolute left-1/2 top-0 -z-10 h-[520px] w-[820px] -translate-x-1/2 glow-violet animate-pulse-glow" />
+        <div aria-hidden className="absolute -bottom-40 right-[-10%] -z-10 h-[420px] w-[620px] glow-blue animate-pulse-glow" />
+        <div aria-hidden className="absolute inset-0 -z-10 bg-grid bg-grid-fade" />
+        <div aria-hidden className="noise -z-10" />
+
+        <div className="mx-auto max-w-6xl px-6 text-center">
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            animate="show"
+            className="mx-auto inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-white/[0.03] px-4 py-1.5 text-xs text-foreground/80 backdrop-blur"
+          >
+            <Sparkles className="h-3.5 w-3.5 text-violet-glow" />
+            <span>Now in private beta — verified hiring for the AI era</span>
+          </motion.div>
+
+          <motion.h1
+            variants={fadeUp}
+            custom={1}
+            initial="hidden"
+            animate="show"
+            className="mx-auto mt-8 max-w-4xl text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl"
+          >
+            <span className="text-gradient">Trust is the</span>
+            <br />
+            <span className="text-gradient-accent">new resume.</span>
+          </motion.h1>
+
+          <motion.p
+            variants={fadeUp}
+            custom={2}
+            initial="hidden"
+            animate="show"
+            className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-foreground/70"
+          >
+            Resumes are easy to fake. Protobloc replaces them with a verified professional identity —
+            peer attestations, cryptographic provenance, and a transparent trust score that
+            recruiters can actually rely on.
+          </motion.p>
+
+          <motion.div
+            variants={fadeUp}
+            custom={3}
+            initial="hidden"
+            animate="show"
+            className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row"
+          >
+            <Button asChild size="lg">
+              <Link href="/signup">
+                Claim your identity
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+            <Button asChild variant="ghost" size="lg">
+              <Link href="#solution">See how it works</Link>
+            </Button>
+          </motion.div>
+
+          {/* Trust metrics strip */}
+          <motion.div
+            variants={fadeUp}
+            custom={4}
+            initial="hidden"
+            animate="show"
+            className="mx-auto mt-16 grid max-w-3xl grid-cols-3 gap-px overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)]"
+          >
+            {[
+              { k: "12,400+", v: "verified profiles" },
+              { k: "94%", v: "verifier accuracy" },
+              { k: "<48h", v: "avg. time to verify" },
+            ].map((m) => (
+              <div key={m.v} className="bg-[var(--surface)] px-6 py-5">
+                <div className="text-2xl font-semibold text-gradient-accent">{m.k}</div>
+                <div className="mt-1 text-xs uppercase tracking-wider text-muted">{m.v}</div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Hero product mock card */}
+        <div className="mx-auto mt-20 max-w-5xl px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="relative rounded-2xl border border-[var(--border-strong)] bg-[var(--surface)] p-2 shadow-[0_60px_120px_-40px_rgba(124,58,237,0.35)]"
+          >
+            <div className="rounded-xl bg-[var(--surface-2)] p-6 sm:p-10">
+              <div className="flex items-center gap-4">
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-violet to-blue text-lg font-semibold">
+                  AR
+                </div>
+                <div className="flex-1">
+                  <div className="text-lg font-semibold">Ava Reyes</div>
+                  <div className="text-sm text-muted">Staff Engineer · ex-Stripe, ex-Linear</div>
+                </div>
+                <TrustRing score={94} />
+              </div>
+              <div className="mt-8 grid gap-4 sm:grid-cols-3">
+                {[
+                  { icon: ShieldCheck, label: "Verified work history", value: "5 of 5 roles" },
+                  { icon: Users, label: "Peer attestations", value: "23 from 4 companies" },
+                  { icon: Activity, label: "Trust percentile", value: "Top 4% globally" },
+                ].map((s) => (
+                  <div key={s.label} className="rounded-xl border border-[var(--border)] bg-[var(--surface-3)] p-4">
+                    <s.icon className="h-4 w-4 text-violet-glow" />
+                    <div className="mt-3 text-xs uppercase tracking-wider text-muted">{s.label}</div>
+                    <div className="mt-1 text-sm font-medium">{s.value}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* ===== Intro ===== */}
-      <section className="mx-auto max-w-5xl px-6 py-28 text-center sm:py-36">
-        <p className="text-sm font-medium uppercase tracking-[0.18em] text-brand-blue">
-          A new way to cultivate data
-        </p>
-        <h2 className="mt-6 text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">
-          What was once harvested and unverified can now be grown,
-          proven at the root, and kept aligned over time.
-        </h2>
-      </section>
-
-      {/* ===== Three principles ===== */}
-      <section className="mx-auto max-w-7xl px-6 pb-24">
+      {/* ===== Problem ===== */}
+      <Section id="problem" eyebrow="The problem" title="Hiring trust is collapsing.">
         <div className="grid gap-6 md:grid-cols-3">
-          {principles.map((p) => (
-            <article
-              key={p.title}
-              className="rounded-3xl bg-surface p-8 ring-1 ring-black/5 transition hover:-translate-y-1 hover:shadow-xl"
-            >
-              <div className="text-ink">{p.icon}</div>
-              <p className="mt-6 text-xs font-semibold uppercase tracking-[0.18em] text-brand-blue">
-                {p.eyebrow}
-              </p>
-              <h3 className="mt-3 text-2xl font-semibold leading-snug">{p.title}</h3>
-              <p className="mt-4 text-[15px] leading-relaxed text-muted">{p.body}</p>
-            </article>
+          {[
+            {
+              icon: Sparkles,
+              title: "AI-generated resumes",
+              body: "LLMs produce flawless, tailored resumes in seconds. Recruiters can no longer tell the polished from the fabricated.",
+            },
+            {
+              icon: Lock,
+              title: "Unverifiable claims",
+              body: "Roles, dates, and impact stories live in PDFs nobody can prove. Background checks are slow, expensive, and shallow.",
+            },
+            {
+              icon: Zap,
+              title: "Low hiring confidence",
+              body: "Teams interview more, hire slower, and still mis-hire. Talented candidates get lost in the noise.",
+            },
+          ].map((p) => (
+            <div key={p.title} className="rounded-2xl glass p-6">
+              <p.icon className="h-5 w-5 text-violet-glow" />
+              <h3 className="mt-5 text-lg font-semibold">{p.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-foreground/70">{p.body}</p>
+            </div>
           ))}
         </div>
-      </section>
+      </Section>
 
-      {/* ===== How it works ===== */}
-      <section className="relative isolate overflow-hidden bg-ink py-28 text-white sm:py-36">
-        <div className="absolute inset-0 bg-grid-overlay opacity-30" />
-        <div className="absolute -top-40 left-1/2 h-[480px] w-[680px] -translate-x-1/2 rounded-full bg-brand-blue/30 blur-[140px]" />
-
-        <div className="relative mx-auto max-w-7xl px-6">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="text-sm font-medium uppercase tracking-[0.18em] text-brand-sky">
-              How it works
-            </p>
-            <h2 className="mt-5 text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">
-              A data layer that verifies truth, protects privacy,
-              and rewards its source.
-            </h2>
-          </div>
-
-          <ol className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {steps.map((s, i) => (
-              <li
-                key={s.title}
-                className="rounded-2xl bg-white/5 p-7 ring-1 ring-white/10 backdrop-blur"
+      {/* ===== Solution ===== */}
+      <Section id="solution" eyebrow="The solution" title="A verified identity layer for work.">
+        <div className="grid items-start gap-12 lg:grid-cols-2">
+          <div className="space-y-6">
+            {[
+              { n: "01", t: "Upload your resume", d: "We parse experience, education, and skills with AI to build a draft profile in seconds." },
+              { n: "02", t: "Request peer attestations", d: "Share a unique verification link with former managers and teammates. They confirm your role, dates, and impact." },
+              { n: "03", t: "Build your trust score", d: "Our engine weighs verifier seniority, company-domain emails, timeline overlap, and independence to compute a score out of 100." },
+              { n: "04", t: "Get discovered", d: "Recruiters search and shortlist by trust percentile, verified skills, and real work history — not keywords." },
+            ].map((s, i) => (
+              <motion.div
+                key={s.n}
+                initial={{ opacity: 0, x: -10 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05 }}
+                className="flex gap-5"
               >
-                <div className="flex items-center gap-3">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-sm font-mono">
-                    0{i + 1}
-                  </span>
-                  {i === 1 && (
-                    <Image src="/seal-check.svg" alt="" width={28} height={28} className="opacity-80" />
-                  )}
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[var(--border-strong)] bg-[var(--surface-2)] font-mono text-xs text-violet-glow">
+                  {s.n}
                 </div>
-                <h3 className="mt-6 text-xl font-semibold">{s.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-white/70">{s.body}</p>
-              </li>
+                <div>
+                  <div className="text-base font-semibold">{s.t}</div>
+                  <p className="mt-1 text-sm leading-relaxed text-foreground/65">{s.d}</p>
+                </div>
+              </motion.div>
             ))}
-          </ol>
+          </div>
 
-          <div className="mt-16 flex justify-center">
-            <a
-              href="#"
-              className="inline-flex items-center gap-3 rounded-full bg-white/10 px-5 py-2.5 text-sm backdrop-blur ring-1 ring-white/20 hover:bg-white/20"
-            >
-              <span className="text-white/70">Read our whitepaper</span>
-              <span className="font-medium">The Protobloc Protocol</span>
-              <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden>
-                <path d="M5 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </a>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.97 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="relative"
+          >
+            <div className="absolute -inset-6 -z-10 glow-violet opacity-60 blur-2xl" />
+            <div className="rounded-2xl border border-[var(--border-strong)] bg-[var(--surface)] p-6">
+              <div className="text-xs uppercase tracking-wider text-muted">Trust score breakdown</div>
+              <div className="mt-4 flex items-center gap-6">
+                <TrustRing score={91} large />
+                <div className="flex-1 space-y-3">
+                  {[
+                    { k: "Profile completion", v: 100 },
+                    { k: "Verified email & education", v: 100 },
+                    { k: "Peer attestations (23)", v: 92 },
+                    { k: "Verifier quality", v: 88 },
+                    { k: "Consistency", v: 95 },
+                  ].map((r) => (
+                    <div key={r.k}>
+                      <div className="flex justify-between text-xs">
+                        <span className="text-foreground/70">{r.k}</span>
+                        <span className="font-mono text-foreground/90">{r.v}</span>
+                      </div>
+                      <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-white/5">
+                        <div
+                          className="h-full rounded-full bg-gradient-to-r from-violet to-blue"
+                          style={{ width: `${r.v}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </Section>
+
+      {/* ===== Candidates ===== */}
+      <Section id="candidates" eyebrow="For candidates" title="Own your professional truth.">
+        <div className="grid gap-6 md:grid-cols-2">
+          {[
+            { icon: ShieldCheck, t: "Provable work history", d: "Every role independently attested by people you actually worked with — never deepfakeable." },
+            { icon: Star, t: "Stand out, instantly", d: "A high trust percentile is a credible signal recruiters can act on without a 5-round process." },
+            { icon: Users, t: "Portable network proof", d: "Your verifications travel with you across companies, jobs, and platforms — you keep ownership." },
+            { icon: Briefcase, t: "Get matched with real roles", d: "Recruiters see verified skills and reach out with relevant opportunities, not spam." },
+          ].map((f) => (
+            <FeatureCard key={f.t} {...f} />
+          ))}
+        </div>
+      </Section>
+
+      {/* ===== Recruiters ===== */}
+      <Section id="recruiters" eyebrow="For recruiters" title="Hire with confidence, faster.">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {[
+            { icon: ShieldCheck, t: "Verified-only search", d: "Filter by trust percentile, verified employers, and attested skills." },
+            { icon: Users, t: "Pipeline & ATS", d: "Drag-and-drop kanban from Applied to Hired, with team notes." },
+            { icon: Activity, t: "Trust analytics", d: "See verified-applicant ratios and avg. score per role in real time." },
+            { icon: Zap, t: "10x signal density", d: "Stop screening AI fluff. Start interviewing pre-vetted humans." },
+          ].map((f) => (
+            <FeatureCard key={f.t} {...f} compact />
+          ))}
+        </div>
+      </Section>
+
+      {/* ===== Logos / social proof ===== */}
+      <section className="border-y border-[var(--border)] bg-[var(--surface)]">
+        <div className="mx-auto max-w-6xl px-6 py-14 text-center">
+          <p className="text-xs uppercase tracking-[0.18em] text-muted">
+            Trusted by talent from
+          </p>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-x-12 gap-y-6 text-foreground/40">
+            {["Stripe", "Linear", "Vercel", "Figma", "Anthropic", "Ramp", "Notion"].map((n) => (
+              <span key={n} className="text-lg font-semibold tracking-tight">{n}</span>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ===== Final CTA ===== */}
-      <section id="waitlist" className="relative isolate overflow-hidden bg-hero-cta py-28 text-white sm:py-36">
-        <div className="relative mx-auto max-w-4xl px-6 text-center">
-          <h2 className="text-4xl font-semibold leading-tight tracking-tight sm:text-6xl">
-            Take ownership of your<br />professional identity
+      {/* ===== Testimonials ===== */}
+      <Section eyebrow="What people say" title="Built for the next decade of hiring.">
+        <div className="grid gap-6 md:grid-cols-3">
+          {[
+            { q: "Protobloc cut our screening time in half. Verified candidates means I can trust the resume in front of me.", a: "Maya L.", r: "Head of Talent, Series B fintech" },
+            { q: "I rebuilt my entire career history in 20 minutes. Within a week I had 23 attestations from former teammates.", a: "Jordan P.", r: "Staff Engineer" },
+            { q: "The trust score actually correlates with our successful hires. It's the first hiring signal I've genuinely trusted.", a: "Sasha K.", r: "VP Engineering" },
+          ].map((t) => (
+            <div key={t.a} className="rounded-2xl glass p-6">
+              <CircleCheck className="h-5 w-5 text-violet-glow" />
+              <p className="mt-4 text-sm leading-relaxed text-foreground/85">
+                &ldquo;{t.q}&rdquo;
+              </p>
+              <div className="mt-6 text-sm">
+                <div className="font-semibold">{t.a}</div>
+                <div className="text-muted">{t.r}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* ===== CTA ===== */}
+      <section className="relative isolate overflow-hidden py-32">
+        <div aria-hidden className="absolute left-1/2 top-1/2 -z-10 h-[400px] w-[700px] -translate-x-1/2 -translate-y-1/2 glow-violet" />
+        <div aria-hidden className="absolute inset-0 -z-10 bg-grid bg-grid-fade opacity-50" />
+        <div className="mx-auto max-w-3xl px-6 text-center">
+          <h2 className="text-4xl font-semibold tracking-tight sm:text-5xl text-gradient">
+            Your career deserves<br />proof, not promises.
           </h2>
-          <p className="mx-auto mt-6 max-w-xl text-lg text-white/85">
-            Join the waitlist to help build a new foundation for trust in the data economy.
+          <p className="mx-auto mt-5 max-w-xl text-foreground/70">
+            Join the verified professional network being built for the AI era.
           </p>
-          <a
-            href="https://app.protobloc.com/get-started"
-            className="mt-10 inline-flex items-center gap-2 rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-ink shadow-lg shadow-black/10 transition hover:bg-white/90"
-          >
-            Join waitlist
-            <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden>
-              <path d="M5 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </a>
+          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Button asChild size="lg">
+              <Link href="/signup">Claim your identity <ArrowRight className="h-4 w-4" /></Link>
+            </Button>
+            <Button asChild variant="ghost" size="lg">
+              <Link href="/login">I already have an account</Link>
+            </Button>
+          </div>
         </div>
       </section>
 
-      <SiteFooter />
+      {/* ===== Footer ===== */}
+      <footer className="border-t border-[var(--border)]">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-10 text-sm text-muted sm:flex-row">
+          <div className="flex items-center gap-2">
+            <LogoMark small />
+            <span>© {new Date().getFullYear()} Protobloc Labs. All rights reserved.</span>
+          </div>
+          <div className="flex gap-6">
+            <Link href="/privacy" className="hover:text-foreground">Privacy</Link>
+            <Link href="/careers" className="hover:text-foreground">Careers</Link>
+            <a href="mailto:hello@protobloc.com" className="hover:text-foreground">Contact</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
 
-      {/* hidden helper to satisfy lint when Link unused */}
-      <span className="hidden"><Link href="/careers">Careers</Link></span>
+/* -------- helpers -------- */
+
+function Section({
+  id,
+  eyebrow,
+  title,
+  children,
+}: {
+  id?: string;
+  eyebrow: string;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section id={id} className="mx-auto max-w-7xl px-6 py-28">
+      <div className="mx-auto mb-14 max-w-2xl text-center">
+        <p className="text-xs font-medium uppercase tracking-[0.2em] text-violet-glow">
+          {eyebrow}
+        </p>
+        <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl text-gradient">
+          {title}
+        </h2>
+      </div>
+      {children}
+    </section>
+  );
+}
+
+function FeatureCard({
+  icon: Icon,
+  t,
+  d,
+  compact,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  t: string;
+  d: string;
+  compact?: boolean;
+}) {
+  return (
+    <div className={`rounded-2xl glass p-6 ${compact ? "" : "md:p-8"}`}>
+      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet/20 to-blue/20 ring-1 ring-[var(--border-strong)]">
+        <Icon className="h-5 w-5 text-violet-glow" />
+      </div>
+      <h3 className={`mt-5 font-semibold ${compact ? "text-base" : "text-lg"}`}>{t}</h3>
+      <p className="mt-2 text-sm leading-relaxed text-foreground/65">{d}</p>
+    </div>
+  );
+}
+
+function TrustRing({ score, large = false }: { score: number; large?: boolean }) {
+  const size = large ? 96 : 64;
+  const stroke = large ? 8 : 6;
+  const r = (size - stroke) / 2;
+  const c = 2 * Math.PI * r;
+  const offset = c - (score / 100) * c;
+  return (
+    <div className="relative inline-flex items-center justify-center">
+      <svg width={size} height={size} className="rotate-[-90deg]">
+        <defs>
+          <linearGradient id="tg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#a78bfa" />
+            <stop offset="100%" stopColor="#60a5fa" />
+          </linearGradient>
+        </defs>
+        <circle cx={size / 2} cy={size / 2} r={r} stroke="rgba(255,255,255,0.08)" strokeWidth={stroke} fill="none" />
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={r}
+          stroke="url(#tg)"
+          strokeWidth={stroke}
+          strokeLinecap="round"
+          fill="none"
+          strokeDasharray={c}
+          strokeDashoffset={offset}
+        />
+      </svg>
+      <div className={`absolute inset-0 flex flex-col items-center justify-center ${large ? "text-2xl" : "text-base"} font-semibold`}>
+        <span>{score}</span>
+        {large && <span className="text-[10px] font-normal uppercase tracking-wider text-muted">trust</span>}
+      </div>
+    </div>
+  );
+}
+
+function LogoMark({ small = false }: { small?: boolean }) {
+  const s = small ? 18 : 22;
+  return (
+    <div
+      className="relative flex items-center justify-center rounded-lg"
+      style={{ width: s + 6, height: s + 6 }}
+    >
+      <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-violet to-blue opacity-90" />
+      <div className="absolute inset-[2px] rounded-md bg-background" />
+      <div
+        className="relative rounded-sm bg-gradient-to-br from-violet-glow to-blue-glow"
+        style={{ width: s - 8, height: s - 8 }}
+      />
     </div>
   );
 }
