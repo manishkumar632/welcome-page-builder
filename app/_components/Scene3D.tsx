@@ -47,23 +47,41 @@ function HelmetModel({
 }) {
   const ref = useRef<Group>(null);
   const { scene } = useGLTF(HELMET_URL);
+  // Smoothed mouse values that the model actually follows.
+  const smoothed = useRef({ x: 0, y: 0 });
+  // Continuous idle spin angle (so we don't read+write rotation.y).
+  const spin = useRef(0);
 
   useFrame((_, delta) => {
     if (!ref.current) return;
+
+    // Lerp smoothed mouse toward the raw target. Lower = smoother/slower.
+    const ease = 1 - Math.pow(0.001, delta); // framerate-independent ~6%/frame at 60fps
+    smoothed.current.x += (mouse.current.x - smoothed.current.x) * ease;
+    smoothed.current.y += (mouse.current.y - smoothed.current.y) * ease;
+
+    // Idle spin
+    spin.current += delta * 0.18;
+
     const p = progress.get();
-    const mx = mouse.current.x; // -1..1
-    const my = mouse.current.y; // -1..1
+    const mx = smoothed.current.x;
+    const my = smoothed.current.y;
 
-    ref.current.rotation.y += delta * 0.15;
-    const targetY = ref.current.rotation.y + mx * 0.6;
-    const targetX = -0.15 + p * 1.4 - my * 0.5;
-    ref.current.rotation.y += (targetY - ref.current.rotation.y) * 0.06;
-    ref.current.rotation.x += (targetX - ref.current.rotation.x) * 0.08;
+    // Absolute target rotations — written once per frame, no accumulation feedback.
+    const targetY = spin.current + mx * 0.7;
+    const targetX = -0.1 + p * 1.1 - my * 0.45;
 
-    ref.current.position.y = -p * 0.6 + my * 0.15;
-    ref.current.position.x = mx * 0.25;
+    // Lerp the actual rotation toward the target for buttery motion.
+    ref.current.rotation.y += (targetY - ref.current.rotation.y) * ease;
+    ref.current.rotation.x += (targetX - ref.current.rotation.x) * ease;
 
-    const s = 1.0 + p * 0.25;
+    // Gentle parallax in position
+    const targetPx = mx * 0.2;
+    const targetPy = -p * 0.5 + my * 0.12;
+    ref.current.position.x += (targetPx - ref.current.position.x) * ease;
+    ref.current.position.y += (targetPy - ref.current.position.y) * ease;
+
+    const s = 1.0 + p * 0.2;
     ref.current.scale.set(s, s, s);
   });
 
@@ -80,35 +98,36 @@ export function HelmetScene() {
   const mouse = useRef({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const el = containerRef.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-    const y = ((e.clientY - rect.top) / rect.height) * 2 - 1;
-    mouse.current.x = Math.max(-1, Math.min(1, x));
-    mouse.current.y = Math.max(-1, Math.min(1, y));
-  };
-
-  const handleLeave = () => {
-    mouse.current.x = 0;
-    mouse.current.y = 0;
-  };
+  // Listen on the window so the helmet reacts to cursor anywhere on the
+  // page — feels much more "alive" than a small hit-area on the canvas only.
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      const el = containerRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      // Normalize relative to viewport size so movement feels consistent.
+      const x = (e.clientX - cx) / (window.innerWidth / 2);
+      const y = (e.clientY - cy) / (window.innerHeight / 2);
+      mouse.current.x = Math.max(-1, Math.min(1, x));
+      mouse.current.y = Math.max(-1, Math.min(1, y));
+    };
+    window.addEventListener("mousemove", onMove, { passive: true });
+    return () => window.removeEventListener("mousemove", onMove);
+  }, []);
 
   return (
     <div
       ref={containerRef}
-      onMouseMove={handleMove}
-      onMouseLeave={handleLeave}
       className="relative h-[480px] w-full sm:h-[600px]"
       style={{ overflow: "visible" }}
     >
       <div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
         style={{
           width: "120%",
           height: "120%",
-          pointerEvents: "auto",
         }}
       >
         <Canvas
@@ -121,9 +140,7 @@ export function HelmetScene() {
           <directionalLight position={[5, 5, 5]} intensity={1.3} color="#a78bfa" />
           <directionalLight position={[-5, -2, -3]} intensity={0.7} color="#60a5fa" />
           <Suspense fallback={<Loader />}>
-            <Float speed={1.2} rotationIntensity={0.3} floatIntensity={0.7}>
-              <HelmetModel progress={smooth} mouse={mouse} />
-            </Float>
+            <HelmetModel progress={smooth} mouse={mouse} />
             <Sparkles count={40} scale={6} size={2} speed={0.4} color="#a78bfa" />
             <ContactShadows position={[0, -1.6, 0]} opacity={0.45} scale={8} blur={2.6} far={3} />
             <Environment preset="city" />
