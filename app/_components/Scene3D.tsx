@@ -73,8 +73,8 @@ export function HelmetScene() {
       <div
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
         style={{
-          width: "170%",
-          height: "170%",
+          width: "120%",
+          height: "120%",
           pointerEvents: "auto",
         }}
       >
