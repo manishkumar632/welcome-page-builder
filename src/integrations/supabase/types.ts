@@ -14,7 +14,285 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      educations: {
+        Row: {
+          created_at: string
+          degree: string | null
+          end_date: string | null
+          field: string | null
+          id: string
+          school: string
+          start_date: string | null
+          transcript_url: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          degree?: string | null
+          end_date?: string | null
+          field?: string | null
+          id?: string
+          school: string
+          start_date?: string | null
+          transcript_url?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          degree?: string | null
+          end_date?: string | null
+          field?: string | null
+          id?: string
+          school?: string
+          start_date?: string | null
+          transcript_url?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string
+          full_name: string | null
+          github_url: string | null
+          headline: string | null
+          id: string
+          linkedin_url: string | null
+          location: string | null
+          open_to_work: boolean
+          profile_completion: number
+          trust_score: number
+          updated_at: string
+          website_url: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          full_name?: string | null
+          github_url?: string | null
+          headline?: string | null
+          id: string
+          linkedin_url?: string | null
+          location?: string | null
+          open_to_work?: boolean
+          profile_completion?: number
+          trust_score?: number
+          updated_at?: string
+          website_url?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          full_name?: string | null
+          github_url?: string | null
+          headline?: string | null
+          id?: string
+          linkedin_url?: string | null
+          location?: string | null
+          open_to_work?: boolean
+          profile_completion?: number
+          trust_score?: number
+          updated_at?: string
+          website_url?: string | null
+        }
+        Relationships: []
+      }
+      skills: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      user_skills: {
+        Row: {
+          created_at: string
+          endorsement_count: number
+          id: string
+          skill_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          endorsement_count?: number
+          id?: string
+          skill_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          endorsement_count?: number
+          id?: string
+          skill_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_skills_skill_id_fkey"
+            columns: ["skill_id"]
+            isOneToOne: false
+            referencedRelation: "skills"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      verification_requests: {
+        Row: {
+          created_at: string
+          expires_at: string | null
+          id: string
+          note: string | null
+          token: string
+          user_id: string
+          work_experience_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          note?: string | null
+          token?: string
+          user_id: string
+          work_experience_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          note?: string | null
+          token?: string
+          user_id?: string
+          work_experience_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "verification_requests_work_experience_id_fkey"
+            columns: ["work_experience_id"]
+            isOneToOne: false
+            referencedRelation: "work_experiences"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      verifications: {
+        Row: {
+          comment: string | null
+          confidence: number | null
+          created_at: string
+          id: string
+          overlap_end: string | null
+          overlap_start: string | null
+          relationship: string | null
+          request_id: string | null
+          subject_user_id: string
+          verifier_company: string | null
+          verifier_email: string | null
+          verifier_name: string | null
+          verifier_user_id: string | null
+          worked_together: boolean | null
+        }
+        Insert: {
+          comment?: string | null
+          confidence?: number | null
+          created_at?: string
+          id?: string
+          overlap_end?: string | null
+          overlap_start?: string | null
+          relationship?: string | null
+          request_id?: string | null
+          subject_user_id: string
+          verifier_company?: string | null
+          verifier_email?: string | null
+          verifier_name?: string | null
+          verifier_user_id?: string | null
+          worked_together?: boolean | null
+        }
+        Update: {
+          comment?: string | null
+          confidence?: number | null
+          created_at?: string
+          id?: string
+          overlap_end?: string | null
+          overlap_start?: string | null
+          relationship?: string | null
+          request_id?: string | null
+          subject_user_id?: string
+          verifier_company?: string | null
+          verifier_email?: string | null
+          verifier_name?: string | null
+          verifier_user_id?: string | null
+          worked_together?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "verifications_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "verification_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      work_experiences: {
+        Row: {
+          company: string
+          created_at: string
+          description: string | null
+          end_date: string | null
+          id: string
+          is_current: boolean
+          location: string | null
+          start_date: string
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          company: string
+          created_at?: string
+          description?: string | null
+          end_date?: string | null
+          id?: string
+          is_current?: boolean
+          location?: string | null
+          start_date: string
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          company?: string
+          created_at?: string
+          description?: string | null
+          end_date?: string | null
+          id?: string
+          is_current?: boolean
+          location?: string | null
+          start_date?: string
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
