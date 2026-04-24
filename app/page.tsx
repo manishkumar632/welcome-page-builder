@@ -77,7 +77,7 @@ export default function LandingPage() {
   const trackRef = useRef<HTMLElement | null>(null);
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
+    <div className="relative min-h-screen overflow-x-hidden text-foreground">
       {/* ===== Nav ===== */}
       <header className="fixed inset-x-0 top-0 z-50 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl items-center justify-between border-b border-[var(--border)]/40 px-6 py-4">

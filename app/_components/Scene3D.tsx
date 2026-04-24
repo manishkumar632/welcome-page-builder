@@ -36,18 +36,33 @@ function Loader() {
   );
 }
 
-/* ---------- Helmet (hero, scroll-driven rotation + zoom) ---------- */
+/* ---------- Helmet (hero, scroll + mouse driven) ---------- */
 
-function HelmetModel({ progress }: { progress: MotionValue<number> }) {
+function HelmetModel({
+  progress,
+  mouse,
+}: {
+  progress: MotionValue<number>;
+  mouse: React.MutableRefObject<{ x: number; y: number }>;
+}) {
   const ref = useRef<Group>(null);
   const { scene } = useGLTF(HELMET_URL);
 
   useFrame((_, delta) => {
     if (!ref.current) return;
     const p = progress.get();
-    ref.current.rotation.y += delta * 0.25;
-    ref.current.rotation.x = -0.15 + p * 1.4;
-    ref.current.position.y = -p * 0.6;
+    const mx = mouse.current.x; // -1..1
+    const my = mouse.current.y; // -1..1
+
+    ref.current.rotation.y += delta * 0.15;
+    const targetY = ref.current.rotation.y + mx * 0.6;
+    const targetX = -0.15 + p * 1.4 - my * 0.5;
+    ref.current.rotation.y += (targetY - ref.current.rotation.y) * 0.06;
+    ref.current.rotation.x += (targetX - ref.current.rotation.x) * 0.08;
+
+    ref.current.position.y = -p * 0.6 + my * 0.15;
+    ref.current.position.x = mx * 0.25;
+
     const s = 1.0 + p * 0.25;
     ref.current.scale.set(s, s, s);
   });
@@ -62,14 +77,32 @@ function HelmetModel({ progress }: { progress: MotionValue<number> }) {
 export function HelmetScene() {
   const { scrollYProgress } = useScroll();
   const smooth = useSpring(scrollYProgress, { stiffness: 80, damping: 20, mass: 0.4 });
+  const mouse = useRef({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = containerRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    const y = ((e.clientY - rect.top) / rect.height) * 2 - 1;
+    mouse.current.x = Math.max(-1, Math.min(1, x));
+    mouse.current.y = Math.max(-1, Math.min(1, y));
+  };
+
+  const handleLeave = () => {
+    mouse.current.x = 0;
+    mouse.current.y = 0;
+  };
 
   return (
     <div
-      className="pointer-events-none relative h-[480px] w-full sm:h-[600px]"
+      ref={containerRef}
+      onMouseMove={handleMove}
+      onMouseLeave={handleLeave}
+      className="relative h-[480px] w-full sm:h-[600px]"
       style={{ overflow: "visible" }}
     >
-      {/* Oversized canvas that bleeds beyond the layout box so the helmet
-          appears to float above the page rather than sit inside a frame. */}
       <div
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
         style={{
@@ -89,7 +122,7 @@ export function HelmetScene() {
           <directionalLight position={[-5, -2, -3]} intensity={0.7} color="#60a5fa" />
           <Suspense fallback={<Loader />}>
             <Float speed={1.2} rotationIntensity={0.3} floatIntensity={0.7}>
-              <HelmetModel progress={smooth} />
+              <HelmetModel progress={smooth} mouse={mouse} />
             </Float>
             <Sparkles count={40} scale={6} size={2} speed={0.4} color="#a78bfa" />
             <ContactShadows position={[0, -1.6, 0]} opacity={0.45} scale={8} blur={2.6} far={3} />
@@ -98,7 +131,7 @@ export function HelmetScene() {
         </Canvas>
       </div>
       <div className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-black/30 px-3 py-1 text-[10px] uppercase tracking-wider text-white/60 backdrop-blur-sm">
-        scroll to interact
+        move cursor to interact
       </div>
     </div>
   );
