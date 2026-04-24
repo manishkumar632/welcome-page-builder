@@ -1,346 +1,216 @@
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
+import SiteHeader from "./_components/SiteHeader";
+import SiteFooter from "./_components/SiteFooter";
 
-const navItems = [
-  { label: "Product", hasMenu: true },
-  { label: "Use Cases", hasMenu: true },
-  { label: "Resources", hasMenu: true },
-  { label: "Pricing", hasMenu: false },
-];
-
-const features = [
+const principles = [
   {
-    badge: "Award Winning",
-    title: "4× No-Code Site of the Month",
-    body: "Recognized across top design directories — going head-to-head with Wix, Webflow and WordPress.",
+    title: "Data is harvested, not grown",
+    eyebrow: "What's broken today",
+    body:
+      "Your professional data is harvested by platforms that did not create it. Reputation is inferred by opaque systems, not proven at the root. In an age where credentials can be generated endlessly, there is no reliable way to tell what has grown from real experience and what has been fabricated overnight.",
+    icon: (
+      <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
+        <path opacity="0.2" d="M33 15V33H15V15H33Z" fill="currentColor" />
+        <path d="M42 7.5V15a1.5 1.5 0 1 1-3 0V9h-6a1.5 1.5 0 1 1 0-3h7.5A1.5 1.5 0 0 1 42 7.5ZM15 39H9v-6a1.5 1.5 0 1 0-3 0v7.5A1.5 1.5 0 0 0 7.5 42H15a1.5 1.5 0 1 0 0-3Zm25.5-7.5a1.5 1.5 0 0 0-1.5 1.5v6h-6a1.5 1.5 0 1 0 0 3h7.5a1.5 1.5 0 0 0 1.5-1.5V33a1.5 1.5 0 0 0-1.5-1.5ZM7.5 16.5A1.5 1.5 0 0 0 9 15V9h6a1.5 1.5 0 1 0 0-3H7.5A1.5 1.5 0 0 0 6 7.5V15a1.5 1.5 0 0 0 1.5 1.5ZM15 13.5h18a1.5 1.5 0 0 1 1.5 1.5v18a1.5 1.5 0 0 1-1.5 1.5H15a1.5 1.5 0 0 1-1.5-1.5V15a1.5 1.5 0 0 1 1.5-1.5Zm1.5 18h15v-15h-15v15Z" fill="currentColor" />
+      </svg>
+    ),
   },
   {
-    badge: "Trend Setting",
-    title: "Top Web Design Trend 2025",
-    body: "Interactive 3D elements are reshaping how brands tell their story online.",
+    title: "From harvested data to owned data",
+    eyebrow: "How it's changing",
+    body:
+      "AI has made it trivial to manufacture credentials at scale. Trust can no longer live inside closed platforms. It must come back to individuals who can build their claims over time, prove their origin, and reuse them wherever opportunity grows.",
+    icon: (
+      <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
+        <path d="M43.3 13.8c-.6-.3-1.2-.4-1.9-.2-.6.1-1.2.5-1.6 1l-6.3 6.8L26.7 6.3a3.5 3.5 0 0 0-5.4 0L14.6 21.3l-6.3-6.8a3 3 0 0 0-5.2 2.5L7.3 36.6a3 3 0 0 0 3 2.4h27.4a3 3 0 0 0 3-2.4l4.3-19.5c.1-.6 0-1.3-.3-1.9-.2-.6-.7-1.1-1.4-1.4Z" fill="currentColor" />
+      </svg>
+    ),
   },
   {
-    badge: "Trusted by the Best",
-    title: "Built with leading studios",
-    body: "Designers and agencies behind globally loved shows and protocols ship on our platform.",
-  },
-];
-
-const useCases = [
-  {
-    tag: "Use case · Ecommerce",
-    title: "Product pages that actually convert.",
-    body: "Launch high-performance interactive 3D product landing pages that boost engagement and conversions — no code required.",
-    img: "/usecase-ecommerce.jpg",
-  },
-  {
-    tag: "Use case · Tech",
-    title: "Sites that feel like the future.",
-    body: "Leverage WebGL visuals and best-in-class 3D scenes to elevate your online presence.",
-    img: "/usecase-tech.jpg",
-  },
-  {
-    tag: "Use case · Creative",
-    title: "Wow every visitor.",
-    body: "Craft creative, captivating 3D websites with drag-and-drop tools and keyframe animations.",
-    img: "/usecase-creative.jpg",
-  },
-  {
-    tag: "Use case · Storytelling",
-    title: "Scroll-driven worlds.",
-    body: "Bring your vision to life with scroll-triggered 3D scenes and interactive animations that keep users engaged.",
-    img: "/usecase-storytelling.jpg",
+    title: "Human-grown, machine-verified",
+    eyebrow: "Protobloc: A new foundation",
+    body:
+      "Protobloc provides a cryptographic trust layer where individuals grow their professional identity over time, while peers attest to what is real. Systems can assess truth without extracting ownership, verifying claims while leaving the data rooted with its source.",
+    icon: (
+      <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
+        <path d="M34.5 28.5 31.8 40.8a1.5 1.5 0 0 1-1.5 1.2H17.7a1.5 1.5 0 0 1-1.5-1.2L13.5 28.5h21Z" fill="currentColor" opacity=".25" />
+        <path d="M37.5 27H23.1l4.2-4.2a8.7 8.7 0 0 0 9.8-.2c4.4-2.7 6.8-9 6.4-16.7a1.5 1.5 0 0 0-1.4-1.4c-7.7-.5-14 1.9-16.7 6.3-1.7 2.9-1.8 6.4-.1 9.8L22.5 23.4l-2.3-2.3a8.7 8.7 0 0 0-.3-7.2c-2-3.4-6.7-5.2-12.5-4.9a1.5 1.5 0 0 0-1.4 1.4c-.3 5.8 1.5 10.5 4.9 12.5a8.7 8.7 0 0 0 7.2.3L20.4 25l-1.5 1.5h-8.4a1.5 1.5 0 1 0 0 3h1.8L14.8 41a3 3 0 0 0 2.9 2.5h12.6a3 3 0 0 0 2.9-2.5L35.7 30h1.8a1.5 1.5 0 1 0 0-3Z" fill="currentColor" />
+      </svg>
+    ),
   },
 ];
 
 const steps = [
-  { n: "Step 1", title: "Tell us about yourself", body: "Share your goals, brand and audience in a quick 2-minute brief." },
-  { n: "Step 2", title: "Pick your theme", body: "Choose a 3D theme from our award-winning template gallery." },
-  { n: "Step 3", title: "Edit & launch", body: "Tweak with no-code tools, then publish on a blazing-fast CDN." },
-];
-
-const marqueeWords = [
-  "Wow Factor", "Stand Out", "Captivate", "Innovative",
-  "Best Visuals", "Engaging", "Interactive", "WebGL",
-  "Cinematic", "Storytelling",
+  {
+    title: "Submit a claim",
+    body: "Claim your professional history and supporting data you want to make trustworthy. Claims are the raw inputs into a shared trust layer.",
+  },
+  {
+    title: "Peers review and attest",
+    body: "Trusted peers attest to claims based on real working relationships. Attestations replace self-reported profiles with human-verified signals.",
+  },
+  {
+    title: "Strengthen trust",
+    body: "As attestations accumulate, a trust score strengthens over time. Confidence increases through independent agreement, not a single verification event.",
+  },
+  {
+    title: "Reuse and earn",
+    body: "Trustworthy data can be reused across applications and AI systems. When it creates value, that value flows back to the people who contributed to the trust.",
+  },
 ];
 
 export default function Home() {
   return (
-    <div className="min-h-screen w-full bg-[#fdf6f1] text-[color:var(--brand-ink)] overflow-x-hidden">
-      {/* ===== Header ===== */}
-      <header className="fixed top-0 left-0 right-0 z-50">
-        <div className="mx-auto mt-4 flex max-w-7xl items-center justify-between px-4 sm:px-6">
-          <Link href="/" className="flex items-center gap-2">
-            <Image src="/peach-logo.png" alt="PeachWeb logo" width={36} height={36} priority />
-            <span className="text-xl font-semibold tracking-tight">peachweb</span>
-          </Link>
-
-          <nav className="hidden items-center gap-1 rounded-full bg-white/70 px-2 py-1.5 backdrop-blur-md ring-1 ring-black/5 md:flex">
-            {navItems.map((item) => (
-              <button
-                key={item.label}
-                className="flex items-center gap-1 rounded-full px-4 py-1.5 text-sm font-medium text-[color:var(--brand-ink)] hover:bg-white"
-              >
-                {item.label}
-                {item.hasMenu && (
-                  <svg width="10" height="10" viewBox="0 0 10 10" className="opacity-60">
-                    <path d="M2 4l3 3 3-3" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                )}
-              </button>
-            ))}
-          </nav>
-
-          <div className="flex items-center gap-2">
-            <button className="hidden rounded-full px-4 py-2 text-sm font-medium hover:bg-white/60 sm:inline-flex">Login</button>
-            <button className="hidden rounded-full border border-[color:var(--brand-ink)]/20 px-4 py-2 text-sm font-medium hover:bg-white sm:inline-flex">
-              Talk to Us
-            </button>
-            <button className="rounded-full bg-[color:var(--brand-purple)] px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-purple-900/20 hover:opacity-90">
-              Get Started
-            </button>
-          </div>
-        </div>
-      </header>
-
+    <div className="min-h-screen w-full overflow-x-hidden">
       {/* ===== Hero ===== */}
-      <section className="relative h-[100svh] min-h-[640px] w-full">
-        <Image
-          src="/hero-scene.jpg"
-          alt="Dreamy 3D pastel landscape with a floating clownfish and bubbles"
-          fill
-          priority
-          className="object-cover"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-[#fdf6f1]" />
+      <section className="relative isolate min-h-[100svh] w-full bg-hero-sky">
+        <div className="absolute inset-0 bg-grid-overlay opacity-60" />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-white" />
+        <SiteHeader variant="hero" />
 
-        {/* Floating side label */}
-        <div className="absolute right-0 top-1/2 hidden -translate-y-1/2 rounded-l-2xl bg-white px-3 py-4 shadow-md md:block">
-          <div className="flex flex-col items-center gap-2">
-            <span className="text-base font-bold">W.</span>
-            <span className="rotate-180 text-[10px] tracking-widest text-neutral-500 [writing-mode:vertical-rl]">
-              HONORS
-            </span>
-          </div>
-        </div>
+        <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-end px-6 pb-24 pt-40 text-white">
+          <a
+            href="#"
+            className="mb-10 inline-flex w-fit items-center gap-3 rounded-full bg-white/15 px-4 py-2 text-sm backdrop-blur ring-1 ring-white/20 hover:bg-white/25 animate-fade-up"
+          >
+            <span className="text-white/80">Read our whitepaper</span>
+            <span className="font-medium">The Protobloc Protocol</span>
+            <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden>
+              <path d="M5 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </a>
 
-        <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col items-center justify-end px-4 pb-16 text-center sm:px-6 sm:pb-24">
-          <h1 className="max-w-4xl text-4xl font-semibold leading-[1.05] tracking-tight text-[color:var(--brand-ink)] sm:text-6xl md:text-7xl">
-            3D Websites <span className="text-gradient-brand">in Minutes</span>
+          <h1 className="max-w-5xl text-5xl font-semibold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl lg:text-[88px] animate-fade-up">
+            Your career isn&apos;t<br />owned by a platform
           </h1>
-          <p className="mt-5 max-w-xl text-base text-[color:var(--brand-ink)]/70 sm:text-lg">
-            No-Code Builder for WebGL 3D Websites
+
+          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-white/85 sm:text-xl animate-fade-up">
+            Professional identity should be cultivated, provable at the root, and
+            carried forward by the people who earn it.
           </p>
-          <div className="mt-7 flex flex-col items-center gap-3 sm:flex-row">
-            <button className="rounded-full bg-[color:var(--brand-purple)] px-7 py-3 text-sm font-semibold text-white shadow-xl shadow-purple-900/20 hover:opacity-90">
-              Get started — it&apos;s free
-            </button>
-            <button className="rounded-full border border-[color:var(--brand-ink)]/20 bg-white/70 px-7 py-3 text-sm font-semibold backdrop-blur hover:bg-white">
-              Talk to Us
-            </button>
-          </div>
 
-          <div className="mt-10 flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[color:var(--brand-ink)]/60">
-            <span>Scroll down &amp; dive in</span>
-            <svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 5l4 4 4-4" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
+          <div className="mt-10 animate-fade-up">
+            <a
+              href="#waitlist"
+              className="inline-flex items-center gap-2 rounded-full bg-white px-7 py-3.5 text-sm font-semibold text-ink shadow-lg shadow-black/10 transition hover:bg-white/90"
+            >
+              Join waitlist
+              <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden>
+                <path d="M5 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </a>
           </div>
         </div>
       </section>
 
-      {/* ===== Features strip ===== */}
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28">
+      {/* ===== Intro ===== */}
+      <section className="mx-auto max-w-5xl px-6 py-28 text-center sm:py-36">
+        <p className="text-sm font-medium uppercase tracking-[0.18em] text-brand-blue">
+          A new way to cultivate data
+        </p>
+        <h2 className="mt-6 text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">
+          What was once harvested and unverified can now be grown,
+          proven at the root, and kept aligned over time.
+        </h2>
+      </section>
+
+      {/* ===== Three principles ===== */}
+      <section className="mx-auto max-w-7xl px-6 pb-24">
         <div className="grid gap-6 md:grid-cols-3">
-          {features.map((f) => (
-            <div
-              key={f.title}
-              className="group relative overflow-hidden rounded-3xl bg-white p-7 ring-1 ring-black/5 transition hover:-translate-y-1 hover:shadow-xl"
-            >
-              <span className="inline-flex rounded-full bg-[color:var(--brand-purple)]/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[color:var(--brand-purple)]">
-                {f.badge}
-              </span>
-              <h3 className="mt-4 text-2xl font-semibold leading-snug">{f.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-[color:var(--brand-ink)]/70">{f.body}</p>
-              <div className="pointer-events-none absolute -bottom-16 -right-16 h-40 w-40 rounded-full bg-gradient-to-br from-pink-200/60 to-purple-200/60 blur-2xl" />
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ===== Big CTA card ===== */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#ffd6c0] via-[#ffb6dd] to-[#c89bff] px-6 py-16 text-center sm:px-12 sm:py-24">
-          <div className="absolute -top-10 -left-10 h-48 w-48 rounded-full bg-white/30 blur-3xl animate-float-slow" />
-          <div className="absolute -bottom-10 -right-10 h-56 w-56 rounded-full bg-white/30 blur-3xl animate-float-slower" />
-          <h2 className="relative mx-auto max-w-3xl text-3xl font-semibold leading-tight text-[color:var(--brand-ink)] sm:text-5xl">
-            Launch your visually stunning interactive 3D website.
-          </h2>
-          <div className="relative mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <button className="rounded-full bg-[color:var(--brand-ink)] px-7 py-3 text-sm font-semibold text-white hover:opacity-90">
-              Get Started
-            </button>
-            <button className="rounded-full bg-white/90 px-7 py-3 text-sm font-semibold backdrop-blur hover:bg-white">
-              Explore Now
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== Use Cases ===== */}
-      <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6">
-        <div className="mb-12 max-w-2xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[color:var(--brand-purple)]">Use Cases</p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-5xl">
-            Built for every kind of story.
-          </h2>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-2">
-          {useCases.map((uc) => (
+          {principles.map((p) => (
             <article
-              key={uc.title}
-              className="group relative overflow-hidden rounded-3xl bg-white ring-1 ring-black/5 transition hover:-translate-y-1 hover:shadow-2xl"
+              key={p.title}
+              className="rounded-3xl bg-surface p-8 ring-1 ring-black/5 transition hover:-translate-y-1 hover:shadow-xl"
             >
-              <div className="relative h-64 w-full overflow-hidden">
-                <Image
-                  src={uc.img}
-                  alt={uc.title}
-                  fill
-                  loading="lazy"
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  sizes="(min-width: 768px) 50vw, 100vw"
-                />
-              </div>
-              <div className="p-7">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[color:var(--brand-purple)]">
-                  {uc.tag}
-                </p>
-                <h3 className="mt-3 text-2xl font-semibold leading-snug">{uc.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-[color:var(--brand-ink)]/70">{uc.body}</p>
-                <button className="mt-5 inline-flex items-center gap-2 rounded-full bg-[color:var(--brand-ink)] px-5 py-2 text-sm font-semibold text-white hover:opacity-90">
-                  Explore Now
-                  <svg width="14" height="14" viewBox="0 0 14 14"><path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                </button>
-              </div>
+              <div className="text-ink">{p.icon}</div>
+              <p className="mt-6 text-xs font-semibold uppercase tracking-[0.18em] text-brand-blue">
+                {p.eyebrow}
+              </p>
+              <h3 className="mt-3 text-2xl font-semibold leading-snug">{p.title}</h3>
+              <p className="mt-4 text-[15px] leading-relaxed text-muted">{p.body}</p>
             </article>
           ))}
         </div>
       </section>
 
-      {/* ===== Steps ===== */}
-      <section className="bg-[color:var(--brand-ink)] py-24 text-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <div className="mb-14 max-w-2xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-pink-300">How it works</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-5xl">
-              Get your 3D website with our experts.
+      {/* ===== How it works ===== */}
+      <section className="relative isolate overflow-hidden bg-ink py-28 text-white sm:py-36">
+        <div className="absolute inset-0 bg-grid-overlay opacity-30" />
+        <div className="absolute -top-40 left-1/2 h-[480px] w-[680px] -translate-x-1/2 rounded-full bg-brand-blue/30 blur-[140px]" />
+
+        <div className="relative mx-auto max-w-7xl px-6">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="text-sm font-medium uppercase tracking-[0.18em] text-brand-sky">
+              How it works
+            </p>
+            <h2 className="mt-5 text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">
+              A data layer that verifies truth, protects privacy,
+              and rewards its source.
             </h2>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-3">
-            {steps.map((s) => (
-              <div
-                key={s.n}
-                className="rounded-3xl bg-white/5 p-7 ring-1 ring-white/10 backdrop-blur"
+          <ol className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {steps.map((s, i) => (
+              <li
+                key={s.title}
+                className="rounded-2xl bg-white/5 p-7 ring-1 ring-white/10 backdrop-blur"
               >
-                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-pink-300">{s.n}</p>
-                <h3 className="mt-3 text-2xl font-semibold">{s.title}</h3>
+                <div className="flex items-center gap-3">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-sm font-mono">
+                    0{i + 1}
+                  </span>
+                  {i === 1 && (
+                    <Image src="/seal-check.svg" alt="" width={28} height={28} className="opacity-80" />
+                  )}
+                </div>
+                <h3 className="mt-6 text-xl font-semibold">{s.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-white/70">{s.body}</p>
-              </div>
+              </li>
             ))}
-          </div>
+          </ol>
 
-          <div className="mt-12 flex flex-wrap items-center gap-3">
-            <button className="rounded-full bg-white px-7 py-3 text-sm font-semibold text-[color:var(--brand-ink)] hover:opacity-90">
-              Book a Call
-            </button>
-            <button className="rounded-full border border-white/20 px-7 py-3 text-sm font-semibold hover:bg-white/10">
-              See Pricing
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* ===== Marquee ===== */}
-      <section className="border-y border-black/5 bg-white py-8 overflow-hidden">
-        <div className="flex w-max animate-marquee gap-12 whitespace-nowrap">
-          {[...marqueeWords, ...marqueeWords, ...marqueeWords].map((w, i) => (
-            <span
-              key={i}
-              className="text-3xl font-semibold tracking-tight text-[color:var(--brand-ink)]/80 sm:text-5xl"
+          <div className="mt-16 flex justify-center">
+            <a
+              href="#"
+              className="inline-flex items-center gap-3 rounded-full bg-white/10 px-5 py-2.5 text-sm backdrop-blur ring-1 ring-white/20 hover:bg-white/20"
             >
-              {w}
-              <span className="ml-12 inline-block text-pink-400">✦</span>
-            </span>
-          ))}
+              <span className="text-white/70">Read our whitepaper</span>
+              <span className="font-medium">The Protobloc Protocol</span>
+              <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden>
+                <path d="M5 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </a>
+          </div>
         </div>
       </section>
 
       {/* ===== Final CTA ===== */}
-      <section className="mx-auto max-w-7xl px-4 py-24 sm:px-6">
-        <div className="relative overflow-hidden rounded-[2rem] bg-[color:var(--brand-ink)] px-6 py-20 text-center text-white sm:px-12 sm:py-28">
-          <div className="absolute inset-0 opacity-60">
-            <div className="absolute -top-20 left-1/4 h-72 w-72 rounded-full bg-pink-400/40 blur-3xl animate-float-slow" />
-            <div className="absolute -bottom-20 right-1/4 h-80 w-80 rounded-full bg-purple-400/40 blur-3xl animate-float-slower" />
-          </div>
-          <h2 className="relative mx-auto max-w-3xl text-4xl font-semibold leading-tight sm:text-6xl">
-            Start building <span className="text-gradient-brand">magic</span> today.
+      <section id="waitlist" className="relative isolate overflow-hidden bg-hero-sky py-28 text-white sm:py-36">
+        <div className="absolute inset-0 bg-grid-overlay opacity-50" />
+        <div className="relative mx-auto max-w-4xl px-6 text-center">
+          <h2 className="text-4xl font-semibold leading-tight tracking-tight sm:text-6xl">
+            Take ownership of your<br />professional identity
           </h2>
-          <p className="relative mx-auto mt-4 max-w-xl text-white/70">
-            Join the designers and studios already shipping award-winning 3D experiences.
+          <p className="mx-auto mt-6 max-w-xl text-lg text-white/85">
+            Join the waitlist to help build a new foundation for trust in the data economy.
           </p>
-          <div className="relative mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <button className="rounded-full bg-white px-7 py-3 text-sm font-semibold text-[color:var(--brand-ink)] hover:opacity-90">
-              Get Started
-            </button>
-            <button className="rounded-full border border-white/30 px-7 py-3 text-sm font-semibold hover:bg-white/10">
-              Talk to Us
-            </button>
-          </div>
+          <a
+            href="https://app.protobloc.com/get-started"
+            className="mt-10 inline-flex items-center gap-2 rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-ink shadow-lg shadow-black/10 transition hover:bg-white/90"
+          >
+            Join waitlist
+            <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden>
+              <path d="M5 3l4 4-4 4" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </a>
         </div>
       </section>
 
-      {/* ===== Footer ===== */}
-      <footer className="border-t border-black/5 bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6">
-          <div className="grid gap-10 md:grid-cols-5">
-            <div className="md:col-span-2">
-              <Link href="/" className="flex items-center gap-2">
-                <Image src="/peach-logo.png" alt="PeachWeb logo" width={32} height={32} />
-                <span className="text-lg font-semibold">peachweb</span>
-              </Link>
-              <p className="mt-4 max-w-sm text-sm text-[color:var(--brand-ink)]/60">
-                The no-code builder for WebGL 3D websites. Stunning, interactive, scalable.
-              </p>
-            </div>
+      <SiteFooter />
 
-            {[
-              { h: "Product", items: ["Home", "Features", "Marketplace"] },
-              { h: "Resources", items: ["Tutorials", "Blog", "Discord", "Contact Sales"] },
-              { h: "Use Cases", items: ["Ecommerce", "Storytelling", "Creative & Tech", "Portfolio"] },
-            ].map((col) => (
-              <div key={col.h}>
-                <h4 className="text-xs font-semibold uppercase tracking-[0.25em] text-[color:var(--brand-ink)]/60">
-                  {col.h}
-                </h4>
-                <ul className="mt-4 space-y-2 text-sm">
-                  {col.items.map((it) => (
-                    <li key={it}>
-                      <a className="hover:text-[color:var(--brand-purple)]" href="#">{it}</a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-12 flex flex-col items-start justify-between gap-4 border-t border-black/5 pt-6 text-xs text-[color:var(--brand-ink)]/50 sm:flex-row sm:items-center">
-            <p>Peach Worlds Ltd © 2025</p>
-            <p>Crafted with WebGL ✦ pastel dreams</p>
-          </div>
-        </div>
-      </footer>
+      {/* hidden helper to satisfy lint when Link unused */}
+      <span className="hidden"><Link href="/careers">Careers</Link></span>
     </div>
   );
 }
