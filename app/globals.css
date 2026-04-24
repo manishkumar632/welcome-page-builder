@@ -32,16 +32,24 @@ html, body {
   text-rendering: optimizeLegibility;
 }
 
-/* Atmospheric sky base for hero */
+/* Atmospheric sky base for hero — uses original Protobloc hero image */
 .bg-hero-sky {
-  background:
-    radial-gradient(80% 50% at 65% 10%, #ffffff 0%, rgba(255,255,255,0) 60%),
-    linear-gradient(180deg, #6b9bd6 0%, #8bb3df 35%, #b9d2ea 65%, #dbe7f4 100%);
+  background-color: #6b9bd6;
+  background-image:
+    radial-gradient(80% 50% at 65% 10%, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 60%),
+    url('/hero-bg.png');
+  background-size: auto, cover;
+  background-position: center top, center bottom;
+  background-repeat: no-repeat, no-repeat;
 }
 .bg-hero-cta {
-  background:
-    radial-gradient(70% 60% at 50% 0%, #ffffff 0%, rgba(255,255,255,0) 60%),
-    linear-gradient(180deg, #c8d8ec 0%, #93b1d8 50%, #c8d8ec 100%);
+  background-color: #93b1d8;
+  background-image:
+    radial-gradient(70% 60% at 50% 0%, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 60%),
+    url('/hero-bg.png');
+  background-size: auto, cover;
+  background-position: center top, center bottom;
+  background-repeat: no-repeat, no-repeat;
 }
 
 /* Subtle grid overlay */
