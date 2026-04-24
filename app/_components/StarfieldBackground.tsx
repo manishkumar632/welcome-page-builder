@@ -170,7 +170,9 @@ export default function StarfieldBackground() {
               style={{
                 width: `${m.length}px`,
                 height: "2px",
-                transform: `rotate(${m.angle}deg)`,
+                // Rotate streak opposite to travel so the bright head leads
+                // and the fading tail trails behind.
+                transform: `rotate(${m.angle + 180}deg)`,
                 transformOrigin: "left center",
                 background:
                   "linear-gradient(90deg, rgba(255,255,255,0.95), rgba(167,139,250,0.6) 40%, rgba(96,165,250,0) 100%)",
