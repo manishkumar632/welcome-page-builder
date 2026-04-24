@@ -184,8 +184,7 @@ export default function Home() {
       </section>
 
       {/* ===== Final CTA ===== */}
-      <section id="waitlist" className="relative isolate overflow-hidden bg-hero-sky py-28 text-white sm:py-36">
-        <div className="absolute inset-0 bg-grid-overlay opacity-50" />
+      <section id="waitlist" className="relative isolate overflow-hidden bg-hero-cta py-28 text-white sm:py-36">
         <div className="relative mx-auto max-w-4xl px-6 text-center">
           <h2 className="text-4xl font-semibold leading-tight tracking-tight sm:text-6xl">
             Take ownership of your<br />professional identity
