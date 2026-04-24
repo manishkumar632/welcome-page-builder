@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ShieldCheck, Pencil, Plus, Github, Linkedin, Globe, Award } from "lucide-react";
+import { ShieldCheck, Pencil, Plus, Globe, Award, Code2, Briefcase } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/components/auth-provider";
 
