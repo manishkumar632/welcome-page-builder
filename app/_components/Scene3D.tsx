@@ -6,6 +6,7 @@ import {
   Environment,
   Float,
   useGLTF,
+  useAnimations,
   ContactShadows,
   Html,
   MeshDistortMaterial,
