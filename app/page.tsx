@@ -37,8 +37,8 @@ const OrbScene = dynamic(
   { ssr: false, loading: () => <SceneSkeleton h="h-[420px]" /> }
 );
 const ShowcaseScene = dynamic(
-  () => import("./_components/Scene3D").then((m) => m.ShowcaseScene),
-  { ssr: false, loading: () => <SceneSkeleton h="h-[440px]" /> }
+  () => import("./_components/SplineCharacters"),
+  { ssr: false, loading: () => <SceneSkeleton h="h-[440px] sm:h-[520px]" /> }
 );
 const ScrollTrackedHelmet = dynamic(
   () => import("./_components/Scene3D").then((m) => m.ScrollTrackedHelmet),
