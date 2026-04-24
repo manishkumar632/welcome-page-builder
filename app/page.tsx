@@ -1,7 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
+
+const Hero3D = dynamic(() => import("./_components/Hero3D"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-[460px] w-full animate-pulse rounded-2xl bg-[var(--surface-2)] sm:h-[560px]" />
+  ),
+});
 import {
   ShieldCheck,
   Sparkles,
@@ -136,38 +144,22 @@ export default function LandingPage() {
           </motion.div>
         </div>
 
-        {/* Hero product mock card */}
+        {/* 3D Hero scene */}
         <div className="mx-auto mt-20 max-w-5xl px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="relative rounded-2xl border border-[var(--border-strong)] bg-[var(--surface)] p-2 shadow-[0_60px_120px_-40px_rgba(124,58,237,0.35)]"
+            className="relative overflow-hidden rounded-2xl border border-[var(--border-strong)] bg-[var(--surface)] p-2 shadow-[0_60px_120px_-40px_rgba(124,58,237,0.35)]"
           >
-            <div className="rounded-xl bg-[var(--surface-2)] p-6 sm:p-10">
-              <div className="flex items-center gap-4">
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-violet to-blue text-lg font-semibold">
-                  AR
-                </div>
-                <div className="flex-1">
-                  <div className="text-lg font-semibold">Ava Reyes</div>
-                  <div className="text-sm text-muted">Staff Engineer · ex-Stripe, ex-Linear</div>
-                </div>
-                <TrustRing score={94} />
-              </div>
-              <div className="mt-8 grid gap-4 sm:grid-cols-3">
-                {[
-                  { icon: ShieldCheck, label: "Verified work history", value: "5 of 5 roles" },
-                  { icon: Users, label: "Peer attestations", value: "23 from 4 companies" },
-                  { icon: Activity, label: "Trust percentile", value: "Top 4% globally" },
-                ].map((s) => (
-                  <div key={s.label} className="rounded-xl border border-[var(--border)] bg-[var(--surface-3)] p-4">
-                    <s.icon className="h-4 w-4 text-violet-glow" />
-                    <div className="mt-3 text-xs uppercase tracking-wider text-muted">{s.label}</div>
-                    <div className="mt-1 text-sm font-medium">{s.value}</div>
-                  </div>
-                ))}
+            <div className="relative overflow-hidden rounded-xl bg-gradient-to-b from-[var(--surface-2)] to-[var(--surface-3)]">
+              <div aria-hidden className="pointer-events-none absolute -left-24 top-1/2 h-72 w-72 -translate-y-1/2 glow-violet opacity-50" />
+              <div aria-hidden className="pointer-events-none absolute -right-24 bottom-0 h-72 w-72 glow-blue opacity-40" />
+              <Hero3D />
+              <div className="pointer-events-none absolute left-6 top-6 flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--surface)]/70 px-3 py-1 text-xs text-foreground/80 backdrop-blur">
+                <ShieldCheck className="h-3.5 w-3.5 text-violet-glow" />
+                Verified identity engine · live preview
               </div>
             </div>
           </motion.div>
