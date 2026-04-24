@@ -64,21 +64,40 @@ export function HelmetScene() {
   const smooth = useSpring(scrollYProgress, { stiffness: 80, damping: 20, mass: 0.4 });
 
   return (
-    <div className="relative h-[480px] w-full sm:h-[600px]">
-      <Canvas dpr={[1, 2]} camera={{ position: [0, 0.2, 4.4], fov: 40 }} gl={{ antialias: true, alpha: true }}>
-        <ambientLight intensity={0.35} />
-        <directionalLight position={[5, 5, 5]} intensity={1.3} color="#a78bfa" />
-        <directionalLight position={[-5, -2, -3]} intensity={0.7} color="#60a5fa" />
-        <Suspense fallback={<Loader />}>
-          <Float speed={1.2} rotationIntensity={0.3} floatIntensity={0.7}>
-            <HelmetModel progress={smooth} />
-          </Float>
-          <Sparkles count={40} scale={6} size={2} speed={0.4} color="#a78bfa" />
-          <ContactShadows position={[0, -1.6, 0]} opacity={0.5} scale={8} blur={2.5} far={3} />
-          <Environment preset="city" />
-        </Suspense>
-      </Canvas>
-      <div className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full border border-[var(--border)] bg-[var(--surface)]/60 px-3 py-1 text-[10px] uppercase tracking-wider text-muted backdrop-blur">
+    <div
+      className="pointer-events-none relative h-[480px] w-full sm:h-[600px]"
+      style={{ overflow: "visible" }}
+    >
+      {/* Oversized canvas that bleeds beyond the layout box so the helmet
+          appears to float above the page rather than sit inside a frame. */}
+      <div
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+        style={{
+          width: "170%",
+          height: "170%",
+          pointerEvents: "auto",
+        }}
+      >
+        <Canvas
+          dpr={[1, 2]}
+          camera={{ position: [0, 0.2, 4.4], fov: 40 }}
+          gl={{ antialias: true, alpha: true }}
+          style={{ background: "transparent", overflow: "visible" }}
+        >
+          <ambientLight intensity={0.35} />
+          <directionalLight position={[5, 5, 5]} intensity={1.3} color="#a78bfa" />
+          <directionalLight position={[-5, -2, -3]} intensity={0.7} color="#60a5fa" />
+          <Suspense fallback={<Loader />}>
+            <Float speed={1.2} rotationIntensity={0.3} floatIntensity={0.7}>
+              <HelmetModel progress={smooth} />
+            </Float>
+            <Sparkles count={40} scale={6} size={2} speed={0.4} color="#a78bfa" />
+            <ContactShadows position={[0, -1.6, 0]} opacity={0.45} scale={8} blur={2.6} far={3} />
+            <Environment preset="city" />
+          </Suspense>
+        </Canvas>
+      </div>
+      <div className="pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-black/30 px-3 py-1 text-[10px] uppercase tracking-wider text-white/60 backdrop-blur-sm">
         scroll to interact
       </div>
     </div>

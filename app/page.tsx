@@ -175,14 +175,15 @@ export default function LandingPage() {
             </motion.div>
           </motion.div>
 
-          {/* 3D helmet */}
+          {/* 3D helmet — floats above the layout, not confined to a box */}
           <motion.div
             initial={{ opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.9, ease: "easeOut", delay: 0.2 }}
-            className="relative"
+            className="relative z-10"
+            style={{ overflow: "visible" }}
           >
-            <div aria-hidden className="absolute -inset-10 -z-10 glow-blue opacity-50 blur-2xl" />
+            <div aria-hidden className="pointer-events-none absolute -inset-16 -z-10 glow-blue opacity-40 blur-3xl" />
             <HelmetScene />
           </motion.div>
         </div>
