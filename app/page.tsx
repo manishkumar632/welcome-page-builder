@@ -242,11 +242,7 @@ export default function LandingPage() {
               Animated, rigged characters powered by glTF — the same standard our verified identity layer is built on.
             </p>
           </div>
-          <div className="rounded-3xl border border-[var(--border-strong)] bg-[var(--surface)]/60 p-2 shadow-[0_60px_120px_-40px_rgba(124,58,237,0.4)] backdrop-blur">
-            <div className="overflow-hidden rounded-2xl bg-gradient-to-b from-[var(--surface-2)] to-[var(--surface-3)]">
-              <ShowcaseScene />
-            </div>
-          </div>
+          <ShowcaseScene />
         </div>
       </section>
 
