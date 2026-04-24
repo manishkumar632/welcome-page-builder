@@ -16,12 +16,14 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const fadeUp = {
+import type { Variants } from "framer-motion";
+
+const fadeUp: Variants = {
   hidden: { opacity: 0, y: 16 },
-  show: (i = 0) => ({
+  show: (i: number = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: [0.2, 0.7, 0.2, 1], delay: i * 0.06 },
+    transition: { duration: 0.6, ease: "easeOut", delay: i * 0.06 },
   }),
 };
 
